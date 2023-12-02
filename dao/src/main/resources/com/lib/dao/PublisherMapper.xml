@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.PublisherMapper">
+    <resultMap id="BaseResultMap" type="com.lib.model.Publisher">
+        <id property="publishId" column="publish_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="INTEGER"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="revision" column="revision" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+        select distinct
+        p.publish_id,
+        p.name,
+        p.remark,
+        p.create_by,
+        p.create_time,
+        p.update_by,
+        p.update_time,
+        p.revision
+        from publisher p
+        <where>
+            <if test="publisher.publishId != null">
+                p.publish_id = #{publisher.publishId} or
+            </if>
+            <if test="publisher.createBy != null">
+                and p.create_by = #{publisher.createBy}
+            </if>
+            <if test="publisher.updateBy != null">
+                and p.update_by = #{publisher.updateBy}
+            </if>
+            <if test="1 == 1">
+                and p.create_time between #{minCreateTime} and #{maxCreateTime}
+                and p.update_time between #{minUpdateTime} and #{maxUpdateTime}
+            </if>
+            <if test="publisher.name != null and publisher.name != ''">
+                p.name like concat('%', #{publisher.name}, '%')
+            </if>
+        </where>
+    </select>
+    <insert id="create" parameterType="com.lib.model.Parameter" useGeneratedKeys="true" keyColumn="publisher.publishId">
+        insert into publisher(name, remark, create_by, create_time, update_by, update_time, revision)
+        values (#{publisher.name}, #{publisher.remark}, #{publisher.createBy}, NOW(), #{publisher.updateBy}, NOW(),
+                #{publisher.revision})
+    </insert>
+    <update id="update" parameterType="com.lib.model.Parameter">
+        update publisher p
+        <set>
+            <if test="publisher.name != null and publisher.name != ''">
+                p.name = #{publisher.name},
+            </if>
+            <if test="publisher.remark != null and publisher.remark != ''">
+                p.remark = #{publisher.remark},
+            </if>
+            <if test="1 == 1">
+                p.update_by = #{publisher.updateBy},
+                p.update_time = NOW(),
+                p.revision = #{publisher.revision}
+            </if>
+        </set>
+        where publish_id = #{id}
+    </update>
+    <delete id="delete" parameterType="com.lib.model.Parameter">
+        delete
+        from publisher
+        where publish_id = #{id}
+    </delete>
+    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+        select p.publish_id,
+               p.name,
+               p.remark,
+               p.create_by,
+               p.create_time,
+               p.update_by,
+               p.update_time,
+               p.revision
+        from publisher p
+        where p.publish_id = #{id}
+    </select>
+</mapper>

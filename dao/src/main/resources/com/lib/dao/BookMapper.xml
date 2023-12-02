@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.BookMapper">
+    <resultMap id="BaseResultMap" type="com.lib.model.Book">
+        <id column="book_id" jdbcType="INTEGER" property="bookId"/>
+        <result column="book_damage_level" jdbcType="TINYINT" property="bookDamageLevel"/>
+        <result column="borrowable" jdbcType="BIT" property="borrowable"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="revision" jdbcType="INTEGER" property="revision"/>
+        <association column="{id=book_info_id}" property="bookInfo" javaType="com.lib.model.BookInfo"
+                     select="com.lib.dao.BookInfoMapper.getById"/>
+    </resultMap>
+    <insert id="create" useGeneratedKeys="true" keyColumn="book.bookId"
+            parameterType="com.lib.model.Parameter">
+        insert into book (book_damage_level, borrowable, book_info_id, create_by, create_time, update_by,
+                          update_time, revision)
+        VALUES (#{book.bookDamgeLevel}, #{book.borrowable}, #{book.bookInfoId}, #{book.createBy}, now(),
+                #{book.updateBy}, now(), #{book.revision})
+    </insert>
+    <update id="update" parameterType="com.lib.model.Parameter">
+        update book
+        <set>
+            <if test="book.bookDamgeLevel != null">
+                book_damage_level = #{book.bookDamgeLevel},
+            </if>
+            <if test="book.borrowable != null">
+                borrowable = #{book.borrowable},
+            </if>
+            <if test="book.bookInfoId != null">
+                book_info_id = #{book.bookInfoId},
+            </if>
+            <if test="book.updateBy != null">
+                update_by = #{book.updateBy},
+            </if>
+            <if test="1 == 1">
+                update_time = now(),
+            </if>
+            <if test="book.revision != null">
+                revision = #{book.revision},
+            </if>
+        </set>
+        where book_id = #{id}
+    </update>
+    <delete id="delete" parameterType="com.lib.model.Parameter">
+        delete from book
+        where book_id = #{id}
+    </delete>
+    <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+        select b.`book_id`,
+               b.`book_damage_level`,
+               b.`borrowable`,
+               b.`book_info_id`,
+               b.`create_by`,
+               b.`create_time`,
+               b.`update_by`,
+               b.`update_time`,
+               b.`revision`
+        from book b
+        <where>
+
+        </where>
+    </select>
+    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+        select b.`book_id`,
+               b.`book_damage_level`,
+               b.`borrowable`,
+               b.`book_info_id`,
+               b.`create_by`,
+               b.`create_time`,
+               b.`update_by`,
+               b.`update_time`,
+               b.`revision`
+        from book b
+        where b.`book_id` = #{id}
+    </select>
+</mapper>

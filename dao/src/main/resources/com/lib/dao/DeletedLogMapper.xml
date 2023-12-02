@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.DeletedLogMapper">
+    <resultMap id="BaseResultMap" type="com.lib.model.DeletedLog">
+        <id property="logId" column="log_id" jdbcType="BIGINT"/>
+        <result property="dataClass" column="class_name" jdbcType="VARCHAR"/>
+        <result property="dataId" column="data_id" jdbcType="INTEGER"/>
+        <result property="data" column="parameter" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="create" parameterType="com.lib.model.Parameter" keyColumn="uLog.id" useGeneratedKeys="true">
+        insert into delete_log(data_class, data_id, data, create_time, create_by)
+        values (#{dLog.dataClass}, #{dLog.dataId}, #{dLog.data}, NOW(), #{dLog.createBy})
+    </insert>
+    <update id="update"></update>
+    <delete id="delete"></delete>
+    <select id="getBy" resultType="com.lib.model.DeletedLog"></select>
+    <select id="getById" resultType="com.lib.model.DeletedLog"></select>
+
+</mapper>

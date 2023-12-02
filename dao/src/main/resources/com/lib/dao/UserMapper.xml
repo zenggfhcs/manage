@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lib.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.lib.model.User">
+        <id property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="authenticationString" column="authentication_string" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
+        <result property="userPhoneNumber" column="user_phone_number" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="authority" column="authority" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="INTEGER"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="revision" column="revision" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="create" useGeneratedKeys="true" keyProperty="user.userId" parameterType="com.lib.model.Parameter">
+        insert into user(authentication_string, user_name, user_email, user_phone_number, state, authority,
+                         surname, name, age, sex, last_login_time, create_by, create_time, update_by, update_time,
+                         revision)
+        values (MD5(#{user.authenticationString}), #{user.userName}, #{user.userEmail}, #{user.userPhoneNumber},
+                #{user.state}, #{user.authority}, #{user.surname}, #{user.name}, #{user.age}, #{user.sex},
+                #{user.lastLoginTime}, #{user.createBy}, now(), #{updateBy}, now(), 0);
+    </insert>
+    <update id="update" parameterType="com.lib.model.Parameter">
+        update user
+        <set>
+            <if test="user.authenticationString != null and user.authenticationString != ''">
+                authentication_string = MD5(#{user.authenticationString}),
+            </if>
+            <if test="user.userName != null and user.userName != ''">
+                user_name = #{user.userName},
+            </if>
+            <if test="user.userEmail != null and user.userEmail != ''">
+                user_email = #{user.userEmail},
+            </if>
+            <if test="user.state != null">
+                state = #{user.state},
+            </if>
+            <if test="user.authority != null">
+                authority = #{user.authority},
+            </if>
+            <if test="user.surname != null">
+                surname = #{user.surname},
+            </if>
+            <if test="user.name != null">
+                name = #{user.name}
+            </if>
+            <if test="user.age != null">
+                age = #{user.age}
+            </if>
+            <if test="user.sex != null">
+                sex = #{user.sex}
+            </if>
+            <if test="user.lastLoginTime != null">
+                lastLoginTime = #{user.lastLoginTime}
+            </if>
+            <if test="user.updateBy != null">
+                update_by = #{user.updateBy},
+            </if>
+            <if test="1 == 1">
+                update_time = now(),
+            </if>
+            <if test="user.revision != null">
+                revision = #{user.revision},
+            </if>
+        </set>
+        where
+        user_id = #{user.userId}
+    </update>
+    <update id="delete" parameterType="com.lib.model.Parameter">
+        update user u
+        set u.state = #{user.state}
+        where u.user_id = #{user.userId};
+    </update>
+    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+        select u.user_id,
+               u.user_name,
+               u.user_email,
+               u.user_phone_number,
+               u.state,
+               u.authority,
+               u.email_normal,
+               u.surname,
+               u.name,
+               u.age,
+               u.sex,
+               u.last_login_time,
+               u.create_by,
+               u.create_time,
+               u.update_by,
+               u.update_time,
+               u.revision
+        from user u
+        where u.user_id = #{id};
+    </select>
+    <select id="login" resultType="java.lang.Integer" parameterType="com.lib.model.Parameter">
+        select count(*)
+        from user u
+        where u.user_id = #{user.userId}
+          and u.authentication_string = MD5(#{user.authenticationString});
+    </select>
+    <select id="has" resultType="java.lang.Integer" parameterType="com.lib.model.Parameter">
+        select count(*)
+        from user u
+        where user_id = #{id};
+    </select>
+    <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+        select
+        u.user_id,
+        u.user_name,
+        u.user_email,
+        u.user_phone_number,
+        u.state,
+        u.authority,
+        u.email_normal,
+        u.surname,
+        u.name,
+        u.age,
+        u.sex,
+        u.last_login_time,
+        u.create_by,
+        u.create_time,
+        u.update_by,
+        u.update_time,
+        u.revision
+        from user u
+        <where>
+            <if test="user.userId != null">
+                u.user_id = #{user.userId} or
+            </if>
+            <if test="1 == 1">
+                and u.age between #{minAge} and #{maxAge}
+                and u.last_login_time between #{minLastLoginTime} and #{maxLastLoginTime}
+                and u.create_time between #{minCreateTime} and #{maxCreateTime}
+                and u.update_time between #{minUpdateTime} and #{maxUpdateTime}
+            </if>
+            <if test="user.surname != null and user.surname != ''">
+                and u.surname = #{user.surname}
+            </if>
+            <if test="user.name != null and user.name != ''">
+                and u.name = #{user.name}
+            </if>
+            <if test="user.userEmail != null and user.userEmail != ''">
+                and u.user_email = #{user.userEmail}
+            </if>
+            <if test="user.userPhoneNumber != null and user.userPhoneNumber != ''">
+                and u.user_phone_number like CONCAT(#{user.userPhoneNumber}, '%')
+            </if>
+            <if test="user.name != null and user.name != ''">
+                and u.name like CONCAT('%', #{user.name}, '%')
+            </if>
+        </where>
+        limit #{pageStart}, #{pageSize}
+    </select>
+</mapper>
