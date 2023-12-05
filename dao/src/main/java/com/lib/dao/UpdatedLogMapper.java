@@ -1,6 +1,6 @@
 package com.lib.dao;
 
-import com.lib.anno.AroundMapper;
+import com.lib.anno.AroundGet;
 import com.lib.model.Parameter;
 import com.lib.model.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,18 +9,18 @@ import java.util.List;
 
 @Mapper
 public interface UpdatedLogMapper {
-@AroundMapper
+@AroundGet
 List<User> getBy(Parameter parameter);
 
-@AroundMapper
+@AroundGet
 int create(Parameter parameter);
 
-@AroundMapper
+@AroundGet
 User getById(Parameter parameter);
 
-@AroundMapper
+@AroundGet
 int delete(Parameter parameter);
 
-@AroundMapper
+@AroundGet
 int update(Parameter parameter);
 }

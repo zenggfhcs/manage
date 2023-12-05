@@ -1,5 +1,6 @@
 package com.lib.service.impl;
 
+import com.lib.anno.AroundUpdate;
 import com.lib.anno.BeforeService;
 import com.lib.dao.UserMapper;
 import com.lib.model.Parameter;
@@ -73,12 +74,15 @@ public Response getById(Parameter parameter, String token) {
    return Response.error("用户ID无效 / 用户不存在");
 }
 
-
+@AroundUpdate
 @BeforeService
 @Override
 public Response update(Parameter parameter, String token) {
+   User user = userMapper.getById(parameter);
+   
    int value = userMapper.update(parameter);
    if (value == 1) {
+      parameter.setUser(user);
       return Response.success();
    }
    

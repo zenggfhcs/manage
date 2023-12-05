@@ -2,6 +2,7 @@ package com.lib.utils;
 
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.JSONWriter;
 
 
@@ -18,8 +19,8 @@ public class Json {
 public static String stringify(Object o) {
    return JSON.toJSONString(o,
          JSONWriter.Feature.NotWriteDefaultValue,
-         JSONWriter.Feature.NotWriteEmptyArray,
-         JSONWriter.Feature.UseSingleQuotes);
+         JSONWriter.Feature.NotWriteEmptyArray
+   );
 }
 
 /**
@@ -31,7 +32,9 @@ public static String stringify(Object o) {
  * @return 反序列化对象
  */
 public static <T> T parse(String s, Class<T> c) {
-   return JSON.parseObject(s, c);
+   return JSON.parseObject(s, c,
+         JSONReader.Feature.TrimString
+   );
 }
 
 /**

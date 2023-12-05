@@ -51,6 +51,14 @@ private String surname;
  */
 private String name;
 /**
+ * 性别
+ */
+private Short sex;
+/**
+ * 年龄
+ */
+private Short age;
+/**
  * 最后登录时间
  */
 private LocalDateTime lastLoginTime;

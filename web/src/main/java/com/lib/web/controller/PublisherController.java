@@ -33,13 +33,14 @@ public Response getPublisher(@PathVariable Integer id, @RequestHeader("token") S
 
 
 @PatchMapping("/{id}")
-public Response updatePublisher(@PathVariable Integer id, Parameter parameter, @RequestHeader("token") String token) {
+public Response updatePublisher(@PathVariable Integer id, @RequestBody Parameter parameter, @RequestHeader("token") String token) {
    parameter.setId(id);
    return publisherService.update(parameter, token);
 }
 
 @DeleteMapping("/{id}")
-public Response deletePublisher(@PathVariable Integer id, Parameter parameter, @RequestHeader("token") String token) {
+public Response deletePublisher(@PathVariable Integer id, @RequestHeader("token") String token) {
+   Parameter parameter = new Parameter();
    parameter.setId(id);
    return publisherService.update(parameter, token);
 }

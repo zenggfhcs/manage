@@ -20,7 +20,7 @@ public Response getDebits(Parameter parameter, @RequestHeader("token") String to
 }
 
 @PostMapping
-public Response createDebit(Parameter parameter, @RequestHeader("token") String token) {
+public Response createDebit(@RequestBody Parameter parameter, @RequestHeader("token") String token) {
    return Response.success();
 }
 
@@ -32,7 +32,7 @@ public Response getDebit(@PathVariable Integer id, @RequestHeader("token") Strin
 }
 
 @PatchMapping("/{id}")
-public Response updateDebit(@PathVariable Integer id, Parameter parameter, @RequestHeader("token") String token) {
+public Response updateDebit(@PathVariable Integer id, @RequestBody Parameter parameter, @RequestHeader("token") String token) {
    parameter.setId(id);
    return Response.success();
 }

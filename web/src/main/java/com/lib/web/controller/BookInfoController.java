@@ -6,7 +6,7 @@ import com.lib.service.BookInfoService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/bookinfos")
+@RequestMapping("/bookInfos")
 public class BookInfoController {
 private final BookInfoService bookInfoService;
 
@@ -20,7 +20,7 @@ public Response getBookInfos(Parameter parameter, @RequestHeader("token") String
 }
 
 @PostMapping
-public Response createBookInfo(Parameter parameter, @RequestHeader("token") String token) {
+public Response createBookInfo(@RequestBody Parameter parameter, @RequestHeader("token") String token) {
    return Response.success();
 }
 
@@ -32,7 +32,7 @@ public Response getBookInfo(@PathVariable Integer id, @RequestHeader("token") St
 }
 
 @PatchMapping("/{id}")
-public Response updateBookInfo(@PathVariable Integer id, Parameter parameter, @RequestHeader("token") String token) {
+public Response updateBookInfo(@PathVariable Integer id, @RequestBody Parameter parameter, @RequestHeader("token") String token) {
    parameter.setId(id);
    return Response.success();
 }

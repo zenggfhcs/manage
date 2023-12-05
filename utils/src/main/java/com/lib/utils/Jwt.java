@@ -46,8 +46,8 @@ public static String createToken(User user) {
    try {
       return JWT.create()
             // 自定义信息
-            .withClaim("userId", user.getUserId())
-            .withClaim("userName", user.getUserName())
+            .withClaim("id", user.getUserId())
+            .withClaim("name", user.getUserName())
             // 有效时间
             .withExpiresAt(new Date(System.currentTimeMillis() + EFFECTIVE_DURATION))
             .sign(algorithm);

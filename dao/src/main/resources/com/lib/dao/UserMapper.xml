@@ -47,16 +47,16 @@
                 surname = #{user.surname},
             </if>
             <if test="user.name != null">
-                name = #{user.name}
+                name = #{user.name},
             </if>
             <if test="user.age != null">
-                age = #{user.age}
+                age = #{user.age},
             </if>
             <if test="user.sex != null">
-                sex = #{user.sex}
+                sex = #{user.sex},
             </if>
             <if test="user.lastLoginTime != null">
-                lastLoginTime = #{user.lastLoginTime}
+                lastLoginTime = #{user.lastLoginTime},
             </if>
             <if test="user.updateBy != null">
                 update_by = #{user.updateBy},

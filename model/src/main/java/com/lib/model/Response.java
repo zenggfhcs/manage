@@ -14,18 +14,18 @@ public class Response {
 /**
  * 响应时间
  */
-private LocalDateTime timestamp;
+private LocalDateTime exp;
 
 /**
  * 响应码
  */
-private Integer status;
+private Integer code;
 
 
 /**
  * 响应信息
  */
-private String message;
+private String msg;
 /**
  * 响应数据
  */

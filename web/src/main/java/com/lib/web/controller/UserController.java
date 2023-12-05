@@ -19,7 +19,7 @@ public UserController(UserService userService) {
 }
 
 @PostMapping("/login")
-public Response login(Parameter parameter, @RequestHeader("token") String token) {
+public Response login(@RequestBody Parameter parameter, @RequestHeader("token") String token) {
    return userService.login(parameter, token);
 }
 
@@ -29,7 +29,7 @@ public Response getUsers(Parameter parameter, @RequestHeader("token") String tok
 }
 
 @PostMapping
-public Response createUser(Parameter parameter, @RequestHeader("token") String token) {
+public Response createUser(@RequestBody Parameter parameter, @RequestHeader("token") String token) {
    return userService.create(parameter, token);
 }
 
@@ -41,7 +41,7 @@ public Response getUser(@PathVariable Integer id, @RequestHeader("token") String
 }
 
 @PatchMapping("/{id}")
-public Response updateUser(@PathVariable Integer id, Parameter parameter, @RequestHeader("token") String token) {
+public Response updateUser(@PathVariable Integer id, @RequestBody Parameter parameter, @RequestHeader("token") String token) {
    parameter.setId(id);
    return userService.update(parameter, token);
 }

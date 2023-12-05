@@ -24,7 +24,7 @@ public Response getBooks(Parameter parameter, @RequestHeader("token") String tok
 }
 
 @PostMapping
-public Response createBook(Parameter parameter, @RequestHeader("token") String token) {
+public Response createBook(@RequestBody Parameter parameter, @RequestHeader("token") String token) {
    return Response.success();
 }
 
@@ -36,7 +36,7 @@ public Response getBook(@PathVariable Integer id, @RequestHeader("token") String
 }
 
 @PatchMapping("/{id}")
-public Response updateBook(@PathVariable Integer id, Parameter parameter, @RequestHeader("token") String token) {
+public Response updateBook(@PathVariable Integer id, @RequestBody Parameter parameter, @RequestHeader("token") String token) {
    parameter.setId(id);
    return Response.success();
 }

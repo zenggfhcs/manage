@@ -24,8 +24,8 @@ public AroundOperation(LogService logService) {
    this.logService = logService;
 }
 
-@Around("@annotation(com.lib.anno.AroundMapper)")
-public Object logMapper(ProceedingJoinPoint point) throws Throwable {
+@Around("@annotation(com.lib.anno.AroundGet)")
+public Object logGet(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    Integer createBy;
    String paramString;
@@ -37,7 +37,7 @@ public Object logMapper(ProceedingJoinPoint point) throws Throwable {
       String token = _parameter.getToken();
       // 解析 token
       TokenBody tokenBody = Jwt.decodeToken(token);
-      createBy = tokenBody.getUserId();
+      createBy = tokenBody.getId();
    }
    
    GetLog log = GetLog.create();
@@ -82,6 +82,22 @@ public Object logMapper(ProceedingJoinPoint point) throws Throwable {
       logService.updateLog(log);
       /* -------- 后 -------- */
    }
+   return o;
+}
+
+@Around("@annotation(com.lib.anno.AroundUpdate)")
+public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
+   /* -------- 前 -------- */
+   // 解析参数
+   Parameter _parameter = (Parameter) point.getArgs()[0];
+   System.out.println(Json.stringify(_parameter));
+   /* -------- 前 -------- */
+   Object o = point.proceed();
+   /* -------- 后 -------- */
+   _parameter = (Parameter) point.getArgs()[0];
+   System.out.println(Json.stringify(_parameter));
+   
+   /* -------- 后 -------- */
    return o;
 }
 }
