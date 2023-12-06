@@ -29,6 +29,7 @@ public Response getPublisher(@PathVariable Integer id, @RequestHeader("token") S
    Parameter parameter = new Parameter();
    parameter.setId(id);
    return publisherService.getById(parameter, token);
+   
 }
 
 

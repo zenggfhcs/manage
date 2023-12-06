@@ -26,3 +26,5 @@ logging:
 # 端口
 server:
   port: 9090
+
+# diy

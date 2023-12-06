@@ -69,7 +69,7 @@
             </if>
         </set>
         where
-        user_id = #{user.userId}
+        user_id = #{id}
     </update>
     <update id="delete" parameterType="com.lib.model.Parameter">
         update user u
