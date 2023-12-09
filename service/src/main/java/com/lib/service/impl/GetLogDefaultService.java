@@ -1,11 +1,10 @@
 package com.lib.service.impl;
 
-import com.lib.anno.BeforeService;
 import com.lib.dao.GetLogMapper;
 import com.lib.model.GetLog;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
-import com.lib.service.LogService;
+import com.lib.service.GetLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class LogDefaultService implements LogService {
-private final GetLogMapper logMapper;
+public class GetLogDefaultService implements GetLogService {
+private final GetLogMapper getLogMapper;
 
-public LogDefaultService(GetLogMapper logMapper) {
-   this.logMapper = logMapper;
+public GetLogDefaultService(GetLogMapper getLogMapper) {
+   this.getLogMapper = getLogMapper;
 }
 
 /**
@@ -29,9 +28,9 @@ public LogDefaultService(GetLogMapper logMapper) {
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public void createLog(GetLog log) {
    Parameter parameter = new Parameter();
-   parameter.setLog(log);
+   parameter.setGLog(log);
    
-   logMapper.create(parameter);
+   getLogMapper.create(parameter);
    
 }
 
@@ -43,9 +42,9 @@ public void createLog(GetLog log) {
 @Override
 public void updateLog(GetLog log) {
    Parameter parameter = new Parameter();
-   parameter.setLog(log);
+   parameter.setGLog(log);
    
-   logMapper.update(parameter);
+   getLogMapper.update(parameter);
 }
 
 /**
@@ -55,10 +54,10 @@ public void updateLog(GetLog log) {
  * @param token     请求 token
  * @return 日志
  */
-@BeforeService
+
 @Override
 public Response getBy(Parameter parameter, String token) {
-   List<GetLog> logs = logMapper.getBy(parameter);
+   List<GetLog> logs = getLogMapper.getBy(parameter);
    
    return Response.success(logs);
 }

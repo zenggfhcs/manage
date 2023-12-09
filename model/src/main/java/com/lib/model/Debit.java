@@ -18,7 +18,7 @@ private Long debitId;
 /**
  *
  */
-private Integer bookId;
+private Book book;
 /**
  *
  */

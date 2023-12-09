@@ -16,7 +16,7 @@ public class Book {
 /**
  * 书籍唯一标识
  */
-private Integer BookId;
+private Integer bookId;
 
 /**
  * 书籍破损级别

@@ -19,32 +19,32 @@
             parameterType="com.lib.model.Parameter">
         insert into book (book_damage_level, borrowable, book_info_id, create_by, create_time, update_by,
                           update_time, revision)
-        VALUES (#{book.bookDamgeLevel}, #{book.borrowable}, #{book.bookInfoId}, #{book.createBy}, now(),
+        VALUES (#{book.bookDamageLevel}, #{book.borrowable}, #{book.bookInfo.bookInfoId}, #{book.createBy}, now(),
                 #{book.updateBy}, now(), #{book.revision})
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
-        update book
+        update book b
         <set>
-            <if test="book.bookDamgeLevel != null">
-                book_damage_level = #{book.bookDamgeLevel},
+            <if test="book.bookDamageLevel != null">
+                b.`book_damage_level` = #{book.bookDamageLevel},
             </if>
             <if test="book.borrowable != null">
-                borrowable = #{book.borrowable},
+                b.`borrowable` = #{book.borrowable},
             </if>
-            <if test="book.bookInfoId != null">
-                book_info_id = #{book.bookInfoId},
+            <if test="book.bookInfo.bookInfoId != null">
+                b.`book_info_id` = #{book.bookInfo.bookInfoId},
             </if>
             <if test="book.updateBy != null">
-                update_by = #{book.updateBy},
+                b.`update_by` = #{book.updateBy},
             </if>
             <if test="1 == 1">
-                update_time = now(),
+                b.`update_time` = now(),
             </if>
             <if test="book.revision != null">
-                revision = #{book.revision},
+                b.`revision` = (1 + b.`revision`) % 2147483647,
             </if>
         </set>
-        where book_id = #{id}
+        where b.`book_id` = #{id} and b.`revision` = #{book.revision}
     </update>
     <delete id="delete" parameterType="com.lib.model.Parameter">
         delete from book

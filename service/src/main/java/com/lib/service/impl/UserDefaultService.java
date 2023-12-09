@@ -1,5 +1,6 @@
 package com.lib.service.impl;
 
+import com.lib.anno.AroundGet;
 import com.lib.anno.AroundUpdate;
 import com.lib.anno.BeforeService;
 import com.lib.dao.UserMapper;
@@ -40,7 +41,7 @@ public Response login(Parameter parameter, String token) {
  *
  * @return 聚合查询结果
  */
-@BeforeService
+@AroundGet
 @Override
 public Response getBy(Parameter parameter, String token) {
    List<User> list = userMapper.getBy(parameter);
@@ -52,7 +53,7 @@ public Response getBy(Parameter parameter, String token) {
    return Response.error("查询出错");
 }
 
-@BeforeService
+
 @Override
 public Response create(Parameter parameter, String token) {
    int value = userMapper.create(parameter);
@@ -63,7 +64,7 @@ public Response create(Parameter parameter, String token) {
    return Response.error("出现错误，添加失败");
 }
 
-@BeforeService
+@AroundGet
 @Override
 public Response getById(Parameter parameter, String token) {
    User user = userMapper.getById(parameter);
@@ -75,7 +76,6 @@ public Response getById(Parameter parameter, String token) {
 }
 
 @AroundUpdate
-@BeforeService
 @Override
 public Response update(Parameter parameter, String token) {
    User user = userMapper.getById(parameter);
@@ -90,8 +90,6 @@ public Response update(Parameter parameter, String token) {
    return Response.error("更新失败");
 }
 
-
-@BeforeService
 @Override
 public Response delete(Parameter parameter, String token) {
    {

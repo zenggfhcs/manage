@@ -20,7 +20,7 @@ public Response getPublishers(Parameter parameter, @RequestHeader("token") Strin
 }
 
 @PostMapping
-public Response createPublisher(Parameter parameter, @RequestHeader("token") String token) {
+public Response createPublisher(@RequestBody Parameter parameter, @RequestHeader("token") String token) {
    return publisherService.create(parameter, token);
 }
 
@@ -29,7 +29,6 @@ public Response getPublisher(@PathVariable Integer id, @RequestHeader("token") S
    Parameter parameter = new Parameter();
    parameter.setId(id);
    return publisherService.getById(parameter, token);
-   
 }
 
 
@@ -43,6 +42,6 @@ public Response updatePublisher(@PathVariable Integer id, @RequestBody Parameter
 public Response deletePublisher(@PathVariable Integer id, @RequestHeader("token") String token) {
    Parameter parameter = new Parameter();
    parameter.setId(id);
-   return publisherService.update(parameter, token);
+   return publisherService.delete(parameter, token);
 }
 }

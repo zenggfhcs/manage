@@ -33,7 +33,7 @@ static {
 }
 
 static {
-   EFFECTIVE_DURATION = 259_200_000;
+   EFFECTIVE_DURATION = 604_800_000;
 }
 
 /**
@@ -47,7 +47,7 @@ public static String createToken(User user) {
       return JWT.create()
             // 自定义信息
             .withClaim("id", user.getUserId())
-            .withClaim("name", user.getUserName())
+            .withClaim("name", user.getDisplayName())
             // 有效时间
             .withExpiresAt(new Date(System.currentTimeMillis() + EFFECTIVE_DURATION))
             .sign(algorithm);
@@ -77,7 +77,7 @@ public static TokenBody decodeToken(String token) {
 public static void main(String[] args) {
    User user = new User();
    user.setUserId(1);
-   user.setUserName("admin");
+   user.setDisplayName("admin");
    System.out.println(createToken(user));
 }
 }

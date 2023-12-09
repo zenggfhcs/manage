@@ -3,7 +3,6 @@
 <mapper namespace="com.lib.dao.DebitMapper">
     <resultMap id="BaseResultMap" type="com.lib.model.Debit">
         <id column="debit_id" jdbcType="INTEGER" property="debitId"/>
-        <result column="book_id" jdbcType="INTEGER" property="bookId"/>
         <result column="return_deadline" jdbcType="DATE" property="returnDeadline"/>
         <result column="return_date" jdbcType="DATE" property="returnDate"/>
         <result column="create_by" jdbcType="INTEGER" property="createBy"/>
@@ -11,6 +10,8 @@
         <result column="update_by" jdbcType="INTEGER" property="updateBy"/>
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="revision" jdbcType="INTEGER" property="revision"/>
+        <association property="book" javaType="com.lib.model.Book" column="{id=book_id}"
+                     select="com.lib.dao.BookMapper.getById" />
     </resultMap>
     <select id="getBy" parameterType="com.lib.model.Parameter" resultMap="BaseResultMap">
         select distinct d.`debit_id`,
@@ -49,16 +50,16 @@
         insert into debit (`book_id`, `return_deadline`,
                            `return_date`, `create_by`, `create_time`,
                            `update_by`, `update_time`, `revision`)
-        values (#{bookId}, #{returnDeadline},
-                #{returnDate}, #{createBy}, NOW(),
-                #{updateBy}, NOW(), #{revision})
+        values (#{debit.book.bookId}, #{debit.returnDeadline},
+                #{debit.returnDate}, #{debit.createBy}, NOW(),
+                #{debit.updateBy}, NOW(), #{debit.revision})
     </insert>
 
     <update id="update" parameterType="com.lib.model.Parameter">
         update debit d
         <set>
-            <if test="debit.bookId != null">
-                d.`book_id` = #{debit.bookId,jdbcType=INTEGER},
+            <if test="debit.book != null and debit.book.bookId != null">
+                d.`book_id` = #{debit.book.bookId,jdbcType=INTEGER},
             </if>
             <if test="debit.returnDeadline != null">
                 d.`return_deadline` = #{debit.returnDeadline,jdbcType=DATE},

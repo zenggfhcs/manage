@@ -18,7 +18,8 @@ private static LocalDateTime MAX_TIME_DEFAULT_VALUE = LocalDateTime.of(2038, 1, 
 /**
  * token
  */
-private String token;
+//private String token;
+
 /**
  * id
  */
@@ -30,7 +31,7 @@ private User user;
 /**
  * log
  */
-private GetLog log;
+private GetLog gLog;
 private UpdatedLog uLog;
 private DeletedLog dLog;
 /**
@@ -105,6 +106,10 @@ private Long minElapsedTime;
  * 执行时间上限
  */
 private Long maxElapsedTime;
+/**
+ * 请求者
+ */
+private TokenBody tokenBody;
 
 public static Parameter createDefault() {
    Parameter p = new Parameter();

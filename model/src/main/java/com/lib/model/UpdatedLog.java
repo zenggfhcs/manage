@@ -31,6 +31,10 @@ private String oldData;
  */
 private String newData;
 /**
+ * 方法耗时
+ */
+private Long elapsedTime;
+/**
  * 日志创建时间
  */
 private LocalDateTime createTime;

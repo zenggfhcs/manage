@@ -4,13 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lib.dao.UserMapper">
     <resultMap id="BaseResultMap" type="com.lib.model.User">
-        <id property="userId" column="user_id" jdbcType="INTEGER"/>
-        <result property="authenticationString" column="authentication_string" jdbcType="VARCHAR"/>
-        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <id property="userId" column="user_id" jdbcType="INTEGER" />
+        <result property="authenticationString" column="authentication_string" jdbcType="VARCHAR" />
+        <result property="displayName" column="display_name" jdbcType="VARCHAR"/>
         <result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
         <result property="userPhoneNumber" column="user_phone_number" jdbcType="VARCHAR"/>
         <result property="state" column="state" jdbcType="INTEGER"/>
         <result property="authority" column="authority" jdbcType="INTEGER"/>
+        <result property="surname" column="surname" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="TINYINT"/>
+        <result property="sex" column="sex" jdbcType="TINYINT"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateBy" column="update_by" jdbcType="INTEGER"/>
@@ -18,21 +23,21 @@
         <result property="revision" column="revision" jdbcType="INTEGER"/>
     </resultMap>
     <insert id="create" useGeneratedKeys="true" keyProperty="user.userId" parameterType="com.lib.model.Parameter">
-        insert into user(authentication_string, user_name, user_email, user_phone_number, state, authority,
+        insert into user(authentication_string, display_name, user_email, user_phone_number, state, authority,
                          surname, name, age, sex, last_login_time, create_by, create_time, update_by, update_time,
                          revision)
-        values (MD5(#{user.authenticationString}), #{user.userName}, #{user.userEmail}, #{user.userPhoneNumber},
+        values (MD5(#{user.authenticationString}), #{user.displayName}, #{user.userEmail}, #{user.userPhoneNumber},
                 #{user.state}, #{user.authority}, #{user.surname}, #{user.name}, #{user.age}, #{user.sex},
-                #{user.lastLoginTime}, #{user.createBy}, now(), #{updateBy}, now(), 0);
+                #{user.lastLoginTime}, #{user.createBy}, now(), #{user.updateBy}, now(), 0);
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
-        update user
+        update user u
         <set>
             <if test="user.authenticationString != null and user.authenticationString != ''">
                 authentication_string = MD5(#{user.authenticationString}),
             </if>
-            <if test="user.userName != null and user.userName != ''">
-                user_name = #{user.userName},
+            <if test="user.displayName != null and user.displayName != ''">
+                display_name = #{user.displayName},
             </if>
             <if test="user.userEmail != null and user.userEmail != ''">
                 user_email = #{user.userEmail},
@@ -56,7 +61,7 @@
                 sex = #{user.sex},
             </if>
             <if test="user.lastLoginTime != null">
-                lastLoginTime = #{user.lastLoginTime},
+                last_login_time = #{user.lastLoginTime},
             </if>
             <if test="user.updateBy != null">
                 update_by = #{user.updateBy},
@@ -68,8 +73,7 @@
                 revision = #{user.revision},
             </if>
         </set>
-        where
-        user_id = #{id}
+        where user_id = #{id}
     </update>
     <update id="delete" parameterType="com.lib.model.Parameter">
         update user u
@@ -78,24 +82,23 @@
     </update>
     <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select u.user_id,
-               u.user_name,
-               u.user_email,
-               u.user_phone_number,
-               u.state,
-               u.authority,
-               u.email_normal,
-               u.surname,
-               u.name,
-               u.age,
-               u.sex,
-               u.last_login_time,
-               u.create_by,
-               u.create_time,
-               u.update_by,
-               u.update_time,
-               u.revision
+               u.`display_name`,
+               u.`user_email`,
+               u.`user_phone_number`,
+               u.`state`,
+               u.`authority`,
+               u.`surname`,
+               u.`name`,
+               u.`age`,
+               u.`sex`,
+               u.`last_login_time`,
+               u.`create_by`,
+               u.`create_time`,
+               u.`update_by`,
+               u.`update_time`,
+               u.`revision`
         from user u
-        where u.user_id = #{id};
+        where u.`user_id` = #{id};
     </select>
     <select id="login" resultType="java.lang.Integer" parameterType="com.lib.model.Parameter">
         select count(*)
@@ -109,28 +112,26 @@
         where user_id = #{id};
     </select>
     <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
-        select
-        u.user_id,
-        u.user_name,
-        u.user_email,
-        u.user_phone_number,
-        u.state,
-        u.authority,
-        u.email_normal,
-        u.surname,
-        u.name,
-        u.age,
-        u.sex,
-        u.last_login_time,
-        u.create_by,
-        u.create_time,
-        u.update_by,
-        u.update_time,
-        u.revision
+        select u.user_id,
+               u.display_name,
+               u.user_email,
+               u.user_phone_number,
+               u.state,
+               u.authority,
+               u.surname,
+               u.name,
+               u.age,
+               u.sex,
+               u.last_login_time,
+               u.create_by,
+               u.create_time,
+               u.update_by,
+               u.update_time,
+               u.revision
         from user u
         <where>
             <if test="user.userId != null">
-                u.user_id = #{user.userId} or
+                u.user_id = #{user.userId}
             </if>
             <if test="1 == 1">
                 and u.age between #{minAge} and #{maxAge}

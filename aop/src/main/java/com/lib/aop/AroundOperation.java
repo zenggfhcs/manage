@@ -1,11 +1,14 @@
 package com.lib.aop;
 
+import com.lib.model.DeletedLog;
 import com.lib.model.GetLog;
 import com.lib.model.Parameter;
-import com.lib.model.TokenBody;
-import com.lib.service.LogService;
+import com.lib.model.UpdatedLog;
+import com.lib.service.DeleteLogService;
+import com.lib.service.GetLogService;
+import com.lib.service.UpdateLogService;
 import com.lib.utils.Json;
-import com.lib.utils.Jwt;
+import com.lib.utils.Parse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,87 +20,155 @@ import java.time.LocalDateTime;
 @Component
 @Aspect
 public class AroundOperation {
-private final LogService logService;
+private final GetLogService getLogService;
+private final UpdateLogService updateLogService;
+private final DeleteLogService deleteLogService;
 
 @Autowired
-public AroundOperation(LogService logService) {
-   this.logService = logService;
+public AroundOperation(GetLogService getLogService, UpdateLogService updateLogService, DeleteLogService deleteLogService) {
+   this.getLogService = getLogService;
+   this.updateLogService = updateLogService;
+   this.deleteLogService = deleteLogService;
 }
-
+/**
+ * 记录查询
+ *
+ * @param point 方法代理对象
+ * @return 方法的返回值（代理对象执行）
+ * @throws Throwable 方法执行的异常
+ */
 @Around("@annotation(com.lib.anno.AroundGet)")
 public Object logGet(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
-   Integer createBy;
-   String paramString;
-   {
-      // 解析参数
-      Parameter _parameter = (Parameter) point.getArgs()[0];
-      paramString = Json.stringify(_parameter);
-      // 从参数中获取 token
-      String token = _parameter.getToken();
-      // 解析 token
-      TokenBody tokenBody = Jwt.decodeToken(token);
-      createBy = tokenBody.getId();
-   }
+   // 解析参数
+   Parameter _parameter = Parse.argsToParameter(point.getArgs());
    
-   GetLog log = GetLog.create();
-   {  // 数据填充
-      // 运行时间
-      log.setRunTime(LocalDateTime.now());
+   GetLog _getLog = GetLog.create();
+   {
+      // 运行时时刻
+      _getLog.setRunTime(LocalDateTime.now());
       // 执行的方法所在的类（接口）
-      log.setClassName(point.getSignature().getDeclaringType().getName());
+      _getLog.setClassName(point.getSignature().getDeclaringType().getName());
       // 执行的方法
-      log.setMethod(point.getSignature().getName());
+      _getLog.setMethod(point.getSignature().getName());
       // 方法接收的参数
-      log.setParameter(paramString);
-      // 设置默认值
-      log.setReturnValue(""); // 返回值
-      log.setElapsedTime(0L); // 运行时长
+      _getLog.setParameter(Json.stringify(_parameter));
+      // 返回值
+      _getLog.setReturnValue("");
+      // 运行时长
+      _getLog.setElapsedTime(0L);
       // 方法执行者
-      log.setCreateBy(createBy);
+      _getLog.setCreateBy(_parameter.getTokenBody().getId());
    }
-   logService.createLog(log);
+   // 插入日志，无论调用是否成功都有日志
+   getLogService.createLog(_getLog);
    /* -------- 前 -------- */
    
    // 执行起始时间
-   long startTime = System.currentTimeMillis();
+   long _startTime = System.currentTimeMillis();
    
-   Object o = null;
+   Object _res = null;
    try {
       // 执行原始方法
-      o = point.proceed();
+      _res = point.proceed();
    } catch (Exception e) {
-      o = e.getMessage();
+      _res = e.getMessage();
       throw e;
    } finally {
       /* -------- 后 -------- */
       // 执行结束时间
-      long endTime = System.currentTimeMillis();
+      long _endTime = System.currentTimeMillis();
       {
          // 返回值
-         log.setReturnValue(Json.stringify(o));
+         _getLog.setReturnValue(Json.stringify(_res));
          // 运行时间
-         log.setElapsedTime(endTime - startTime);
+         _getLog.setElapsedTime(_endTime - _startTime);
       }
-      logService.updateLog(log);
+      getLogService.updateLog(_getLog);
       /* -------- 后 -------- */
    }
-   return o;
+   return _res;
 }
 
+/**
+ * 记录更新
+ *
+ * @param point 方法代理对象
+ * @return 方法的返回值（代理对象执行）
+ * @throws Throwable 方法执行的异常
+ */
 @Around("@annotation(com.lib.anno.AroundUpdate)")
 public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
-   // 解析参数
-   Parameter _parameter = (Parameter) point.getArgs()[0];
-   System.out.println(Json.stringify(_parameter));
-   /* -------- 前 -------- */
-   Object o = point.proceed();
-   /* -------- 后 -------- */
-   _parameter = (Parameter) point.getArgs()[0];
-   System.out.println(Json.stringify(_parameter));
+   // 解析参数 => parameter
+   Parameter _parameter = Parse.argsToParameter(point.getArgs());
+   UpdatedLog _updatedLog = new UpdatedLog();
+   {
+      _updatedLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
+      _updatedLog.setDataId(_parameter.getId());
+      _updatedLog.setOldData("");
+      _updatedLog.setNewData(Json.stringify(_parameter));
+      _updatedLog.setElapsedTime(0L);
+      _updatedLog.setCreateBy(_parameter.getTokenBody().getId());
+      // 插入日志
+      updateLogService.createLog(_updatedLog);
+   }
    
-   /* -------- 后 -------- */
-   return o;
+   /* -------- 前 -------- */
+   Object _res;
+   Long _startTime = System.currentTimeMillis();
+   try {
+      _res = point.proceed();
+   } finally {
+      /* -------- 后 -------- */
+      Long _endTime = System.currentTimeMillis();
+      {
+         _updatedLog.setElapsedTime(_endTime - _startTime);
+         _parameter.setTokenBody(null);
+         _updatedLog.setOldData(Json.stringify(_parameter));
+         // 更新日志
+         updateLogService.updateLog(_updatedLog);
+      }
+      /* -------- 后 -------- */
+   }
+   return _res;
 }
+
+@Around("@annotation(com.lib.anno.AroundDelete)")
+public Object logDelete(ProceedingJoinPoint point) throws Throwable {
+   /* -------- 前 -------- */
+   // 解析参数 => parameter
+   Parameter _parameter = Parse.argsToParameter(point.getArgs());
+   DeletedLog _deletedLog = new DeletedLog();
+   {
+      _deletedLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
+      _deletedLog.setDataId(_parameter.getId());
+      _deletedLog.setData("");
+      _deletedLog.setElapsedTime(0L);
+      _deletedLog.setCreateBy(_parameter.getTokenBody().getId());
+      // 插入日志
+      deleteLogService.createLog(_deletedLog);
+   }
+   
+   /* -------- 前 -------- */
+   Object _res;
+   Long _startTime = System.currentTimeMillis();
+   try {
+      _res = point.proceed();
+   } finally {
+      /* -------- 后 -------- */
+      Long _endTime = System.currentTimeMillis();
+      {
+         _deletedLog.setElapsedTime(_endTime - _startTime);
+         _parameter.setTokenBody(null);
+         _parameter.setId(null);
+         _deletedLog.setData(Json.stringify(_parameter));
+         // 更新日志
+         deleteLogService.updateLog(_deletedLog);
+      }
+      /* -------- 后 -------- */
+   }
+   return _res;
+}
+
 }

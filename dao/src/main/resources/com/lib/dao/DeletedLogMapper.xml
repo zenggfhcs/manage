@@ -7,17 +7,35 @@
         <id property="logId" column="log_id" jdbcType="BIGINT"/>
         <result property="dataClass" column="class_name" jdbcType="VARCHAR"/>
         <result property="dataId" column="data_id" jdbcType="INTEGER"/>
-        <result property="data" column="parameter" jdbcType="VARCHAR"/>
+        <result property="data" column="data" jdbcType="VARCHAR"/>
+        <result property="elapsedTime" column="elapse_time" jdbcType="BIGINT"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="INTEGER"/>
     </resultMap>
-    <insert id="create" parameterType="com.lib.model.Parameter" keyColumn="uLog.id" useGeneratedKeys="true">
-        insert into delete_log(data_class, data_id, data, create_time, create_by)
-        values (#{dLog.dataClass}, #{dLog.dataId}, #{dLog.data}, NOW(), #{dLog.createBy})
+    <insert id="create" parameterType="com.lib.model.Parameter" keyProperty="dLog.logId" keyColumn="log_id" useGeneratedKeys="true">
+        insert into delete_log(data_class, data_id, data, elapsed_time, create_time, create_by)
+        values (#{dLog.dataClass}, #{dLog.dataId}, #{dLog.data}, 0, NOW(), #{dLog.createBy})
     </insert>
-    <update id="update"></update>
-    <delete id="delete"></delete>
-    <select id="getBy" resultType="com.lib.model.DeletedLog"></select>
-    <select id="getById" resultType="com.lib.model.DeletedLog"></select>
+    <update id="update" parameterType="com.lib.model.Parameter">
+        update delete_log
+        <set>
+            <if test="dLog.data != null and dLog.data != ''">
+                data = #{dLog.data},
+            </if>
+            <if test="dLog.elapsedTime != null">
+                elapsed_time = #{dLog.elapsedTime},
+            </if>
+        </set>
+        where log_id = #{dLog.logId}
+    </update>
+    <delete id="delete">
+
+    </delete>
+    <select id="getBy" resultType="com.lib.model.DeletedLog">
+
+    </select>
+    <select id="getById" resultType="com.lib.model.DeletedLog">
+
+    </select>
 
 </mapper>

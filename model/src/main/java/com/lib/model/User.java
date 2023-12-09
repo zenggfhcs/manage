@@ -22,7 +22,7 @@ private String authenticationString;
 /**
  * 用户名
  */
-private String userName;
+private String displayName;
 /**
  * 用户邮箱
  */

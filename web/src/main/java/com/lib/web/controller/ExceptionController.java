@@ -29,7 +29,7 @@ public ExceptionController(ErrorAttributes errorAttributes, List<ErrorViewResolv
 @GetMapping
 public Response customError(HttpServletRequest request) {
    Map<String, Object> attr = getAttr(request);
-   Integer code = (Integer) attr.getOrDefault("status", 200);
+   Integer code = (Integer) attr.getOrDefault("status", 500);
    String msg = attr.get("error") + " " + attr.get("path");
    return Response.error(code, msg);
 }

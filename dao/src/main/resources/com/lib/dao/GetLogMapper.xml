@@ -14,23 +14,23 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="INTEGER"/>
     </resultMap>
-    <insert id="create" useGeneratedKeys="true" keyProperty="log.logId" keyColumn="log_id"
+    <insert id="create" useGeneratedKeys="true" keyProperty="gLog.logId" keyColumn="log_id"
             parameterType="com.lib.model.Parameter">
         insert into get_log(method, class_name, parameter, return_value, elapsed_time, run_time, create_time, create_by)
-        values (#{log.method}, #{log.className}, #{log.parameter}, #{log.returnValue}, #{log.elapsedTime},
-                #{log.runTime}, now(), #{log.createBy})
+        values (#{gLog.method}, #{gLog.className}, #{gLog.parameter}, #{gLog.returnValue}, #{gLog.elapsedTime},
+                #{gLog.runTime}, now(), #{gLog.createBy})
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update get_log
         <set>
-            <if test="log.returnValue != null and log.returnValue != ''">
-                return_value = #{log.returnValue},
+            <if test="gLog.returnValue != null and gLog.returnValue != ''">
+                return_value = #{gLog.returnValue},
             </if>
-            <if test="log.elapsedTime != null">
-                elapsed_time = #{log.elapsedTime},
+            <if test="gLog.elapsedTime != null">
+                elapsed_time = #{gLog.elapsedTime},
             </if>
         </set>
-        where log_id = #{log.logId}
+        where log_id = #{gLog.logId}
     </update>
     <delete id="delete" parameterType="com.lib.model.Parameter">
         delete from get_log
@@ -49,15 +49,15 @@
         l.create_by
         from get_log l
         <where>
-            <if test="log.logId != null">
-                l.log_id = #{log.logId}
+            <if test="gLog.logId != null">
+                l.log_id = #{gLog.logId}
             </if>
-            <if test="log.logId == null">
-                <if test="log.createBy != null">
-                    l.create_by = #{log.createBy}
+            <if test="gLog.logId == null">
+                <if test="gLog.createBy != null">
+                    l.create_by = #{gLog.createBy}
                 </if>
-                <if test="log.method != null and log.method != ''">
-                    and l.method = #{log.method}
+                <if test="gLog.method != null and gLog.method != ''">
+                    and l.method = #{gLog.method}
                 </if>
                 <if test="1 == 1">
                     and l.elapsed_time between #{minElapsedTime} and #{maxElapsedTime}

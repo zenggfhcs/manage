@@ -30,70 +30,70 @@
         insert into book_info (publish_id, publish_place, isbn, cip, book_name, book_type, cover, author,
                                `describe`, publish_date, keyword, lang, price, stock, create_by, create_time, update_by,
                                update_time, revision)
-        VALUES ( #{bookInfo.publishId}, #{bookInfo.publishPlace}, #{bookInfo.isbn}, #{bookInfo.cip}
+        VALUES ( #{bookInfo.publisher.publishId}, #{bookInfo.publishPlace}, #{bookInfo.isbn}, #{bookInfo.cip}
                , #{bookInfo.bookName}
                , #{bookInfo.bookType}, #{bookInfo.cover}, #{bookInfo.author}, #{bookInfo.describe}
                , #{bookInfo.publishDate}
                , #{bookInfo.keyword}, #{bookInfo.lang}, #{bookInfo.price}, #{bookInfo.stock}, #{bookInfo.createBy}
                , NOW()
-               , #{bookInfo.updateBy}, now(), #{bookInfo.vevision})
+               , #{bookInfo.updateBy}, now(), #{bookInfo.revision})
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
-        update book_info
+        update book_info bif
         <set>
-            <if test="bookInfo.publishId != null">
-                `publish_id` = #{bookInfo.publishId},
+            <if test="bookInfo.publisher.publishId != null">
+                bif.`publish_id` = #{bookInfo.publisher.publishId},
             </if>
             <if test="bookInfo.publishPlace != null and bookInfo.publishPlace != ''">
-                `publish_place` = #{bookInfo.publishPlace},
+                bif.`publish_place` = #{bookInfo.publishPlace},
             </if>
             <if test="bookInfo.isbn != null and bookInfo.isbn != ''">
-                `isbn` = #{bookInfo.isbn},
+                bif.`isbn` = #{bookInfo.isbn},
             </if>
             <if test="bookInfo.cip != null and bookInfo.cip != ''">
-                `cip` = #{bookInfo.cip},
+                bif.`cip` = #{bookInfo.cip},
             </if>
             <if test="bookInfo.bookName != null and bookInfo.bookName != ''">
-                `book_name` = #{bookInfo.bookName},
+                bif.`book_name` = #{bookInfo.bookName},
             </if>
             <if test="bookInfo.bookType != null and bookInfo.bookType != ''">
-                `book_type` = #{bookInfo.bookType},
+                bif.`book_type` = #{bookInfo.bookType},
             </if>
             <if test="bookInfo.cover != null and bookInfo.cover != ''">
-                `cover` = #{bookInfo.cover},
+                bif.`cover` = #{bookInfo.cover},
             </if>
             <if test="bookInfo.author != null and bookInfo.author != ''">
-                `author` = #{bookInfo.author},
+                bif.`author` = #{bookInfo.author},
             </if>
             <if test="bookInfo.publishDate != null">
-                `publish_date` = #{bookInfo.publishDate},
+                bif.`publish_date` = #{bookInfo.publishDate},
             </if>
             <if test="bookInfo.keyword != null and bookInfo.keyword != ''">
-                `keyword` = #{bookInfo.keyword},
+                bif.`keyword` = #{bookInfo.keyword},
             </if>
             <if test="bookInfo.lang != null and bookInfo.lang != ''">
-                `lang` = #{bookInfo.lang},
+                bif.`lang` = #{bookInfo.lang},
             </if>
             <if test="bookInfo.price != null">
-                `price` = #{bookInfo.price},
+                bif.`price` = #{bookInfo.price},
             </if>
             <if test="bookInfo.stock != null">
-                `stock` = #{bookInfo.stock},
+                bif.`stock` = #{bookInfo.stock},
             </if>
             <if test="bookInfo.updateBy != null">
-                `update_by` = #{bookInfo.updateBy},
+                bif.`update_by` = #{bookInfo.updateBy},
             </if>
             <if test="1 == 1">
-                `update_time` = NOW(),
+                bif.`update_time` = NOW(),
             </if>
             <if test="bookInfo.describe != null">
-                `describe` = #{bookInfo.describe},
+                bif.`describe` = #{bookInfo.describe},
             </if>
-            <if test="bookInfo.revision != null">
-                `revision` = #{bookInfo.revision},
+            <if test="1 == 1">
+                bif.`revision` = (1 + bif.`revision`) % 2147483647,
             </if>
         </set>
-        where `book_info_id` = #{id}
+        where bif.`book_info_id` = #{id} and bif.`revision` = #{bookInfo.revision}
     </update>
     <delete id="delete" parameterType="com.lib.model.Parameter">
         delete from book_info
@@ -122,7 +122,6 @@
                         bif.`revision`
         from book_info bif
         <where>
-
         </where>
     </select>
     <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">

@@ -1,13 +1,13 @@
 package com.lib.service;
 
-import com.lib.model.GetLog;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
+import com.lib.model.UpdatedLog;
 
-public interface LogService {
-void createLog(GetLog log);
+public interface UpdateLogService {
+void createLog(UpdatedLog log);
 
-void updateLog(GetLog log);
+void updateLog(UpdatedLog log);
 
 Response getBy(Parameter parameter, String token);
 
