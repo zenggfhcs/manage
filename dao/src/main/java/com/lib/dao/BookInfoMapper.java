@@ -7,14 +7,16 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface BookInfoMapper {
-List<BookInfo> getBy(Parameter parameter);
+public interface BookInfoMapper extends BaseMapper<BookInfo> {
+BookInfo getById(Parameter<BookInfo> parameter);
 
-BookInfo getById(Parameter parameter);
+List<BookInfo> getBy(Parameter<BookInfo> parameter);
 
-int update(Parameter parameter);
+int update(Parameter<BookInfo> parameter);
 
-int delete(Parameter parameter);
+int create(Parameter<BookInfo> parameter);
 
-int create(Parameter parameter);
+int delete(Parameter<BookInfo> parameter);
+
+BookInfo getByUpdate(Parameter<BookInfo> parameter);
 }

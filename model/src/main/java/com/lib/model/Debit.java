@@ -1,16 +1,18 @@
 package com.lib.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Debit {
+@Getter
+@Setter
+public class Debit extends BaseEntity {
 /**
  *
  */

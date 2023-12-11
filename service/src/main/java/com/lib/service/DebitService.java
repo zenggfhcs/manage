@@ -1,16 +1,17 @@
 package com.lib.service;
 
+import com.lib.model.Debit;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
 
-public interface DebitService {
-Response getBy(Parameter parameter, String token);
+public interface DebitService extends BaseService<Debit> {
+Response getBy(Parameter<Debit> parameter);
 
-Response create(Parameter parameter, String token);
+Response create(Parameter<Debit> parameter);
 
-Response getById(Parameter parameter, String token);
+Response getById(Parameter<Debit> parameter);
 
-Response update(Parameter parameter, String token);
+Response update(Parameter<Debit> parameter);
 
-Response delete(Parameter parameter, String token);
+Response delete(Parameter<Debit> parameter);
 }

@@ -46,16 +46,16 @@
     <insert id="create" parameterType="com.lib.model.Parameter" useGeneratedKeys="true" keyColumn="publisher.publishId">
         insert into publisher(name, remark, create_by, create_time, update_by, update_time, revision)
         values (#{publisher.name}, #{publisher.remark}, #{tokenBody.id}, NOW(), #{tokenBody.id}, NOW(),
-                0)
+        0)
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update publisher p
         <set>
             <if test="publisher.name != null and publisher.name != ''">
-                p.name = #{publisher.name},
+                p.`name` = #{publisher.name},
             </if>
             <if test="publisher.remark != null and publisher.remark != ''">
-                p.remark = #{publisher.remark},
+                p.`remark` = #{publisher.remark},
             </if>
             <if test="publisher.updateBy != null">
                 p.`update_by` = #{publisher.updateBy},
@@ -74,13 +74,13 @@
     </delete>
     <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select p.`publish_id`,
-               p.`name`,
-               p.`remark`,
-               p.`create_by`,
-               p.`create_time`,
-               p.`update_by`,
-               p.`update_time`,
-               p.`revision`
+        p.`name`,
+        p.`remark`,
+        p.`create_by`,
+        p.`create_time`,
+        p.`update_by`,
+        p.`update_time`,
+        p.`revision`
         from publisher p
         where p.`publish_id` = #{id}
     </select>

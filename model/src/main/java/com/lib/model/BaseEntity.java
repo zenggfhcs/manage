@@ -7,31 +7,32 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+@NoArgsConstructor
+public class BaseEntity {
+
 /**
  * 创建人
  */
-private Integer createBy;
+protected Integer createBy;
 
 /**
  * 创建时间
  */
-private LocalDateTime createTime;
+protected LocalDateTime createTime;
 
 /**
  * 最后更新者
  */
-private Integer updateBy;
+protected Integer updateBy;
 
 /**
  * 最后更新时间
  */
-private LocalDateTime updateTime;
+protected LocalDateTime updateTime;
 
 /**
  * 版本号，乐观锁
  */
-private Integer revision;
+protected Integer revision;
 }

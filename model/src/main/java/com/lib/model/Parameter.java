@@ -12,44 +12,22 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Parameter {
+public class Parameter<T extends BaseEntity> {
 private static LocalDateTime MIN_TIME_DEFAULT_VALUE = LocalDateTime.of(2023, 1, 1, 0, 0);
 private static LocalDateTime MAX_TIME_DEFAULT_VALUE = LocalDateTime.of(2038, 1, 1, 0, 0);
 /**
  * token
  */
-//private String token;
+private String token;
 
 /**
  * id
  */
 private Integer id;
 /**
- * user
+ * 参数实体
  */
-private User user;
-/**
- * log
- */
-private GetLog gLog;
-private UpdatedLog uLog;
-private DeletedLog dLog;
-/**
- * publish
- */
-private Publisher publisher;
-/**
- * bookInfo
- */
-private BookInfo bookInfo;
-/**
- * book
- */
-private Book book;
-/**
- * debit
- */
-private Debit debit;
+private T entity;
 /**
  * 最后登录时间下限
  */
@@ -111,37 +89,37 @@ private Long maxElapsedTime;
  */
 private TokenBody tokenBody;
 
-public static Parameter createDefault() {
-   Parameter p = new Parameter();
-   {
-      p.setMinCreateTime(MIN_TIME_DEFAULT_VALUE);
-      p.setMaxCreateTime(MAX_TIME_DEFAULT_VALUE);
-   }
-   {
-      p.setMinLastLoginTime(MIN_TIME_DEFAULT_VALUE);
-      p.setMaxLastLoginTime(MAX_TIME_DEFAULT_VALUE);
-   }
-   {
-      p.setMinRunTime(MIN_TIME_DEFAULT_VALUE);
-      p.setMaxRunTime(MAX_TIME_DEFAULT_VALUE);
-   }
-   {
-      p.setMinUpdateTime(MIN_TIME_DEFAULT_VALUE);
-      p.setMaxUpdateTime(MAX_TIME_DEFAULT_VALUE);
-   }
-   {
-      p.setMinAge(0);
-      p.setMaxAge(300);
-   }
-   {
-      p.setMinElapsedTime(0L);
-      p.setMaxElapsedTime(3_600_000L);
-   }
-   {
-      p.setPageStart(0);
-      p.setPageSize(10);
-   }
-   return p;
-}
+//public static Parameter createDefault() {
+//   Parameter p = new Parameter();
+//   {
+//      p.setMinCreateTime(MIN_TIME_DEFAULT_VALUE);
+//      p.setMaxCreateTime(MAX_TIME_DEFAULT_VALUE);
+//   }
+//   {
+//      p.setMinLastLoginTime(MIN_TIME_DEFAULT_VALUE);
+//      p.setMaxLastLoginTime(MAX_TIME_DEFAULT_VALUE);
+//   }
+//   {
+//      p.setMinRunTime(MIN_TIME_DEFAULT_VALUE);
+//      p.setMaxRunTime(MAX_TIME_DEFAULT_VALUE);
+//   }
+//   {
+//      p.setMinUpdateTime(MIN_TIME_DEFAULT_VALUE);
+//      p.setMaxUpdateTime(MAX_TIME_DEFAULT_VALUE);
+//   }
+//   {
+//      p.setMinAge(0);
+//      p.setMaxAge(300);
+//   }
+//   {
+//      p.setMinElapsedTime(0L);
+//      p.setMaxElapsedTime(3_600_000L);
+//   }
+//   {
+//      p.setPageStart(0);
+//      p.setPageSize(10);
+//   }
+//   return p;
+//}
 
 }

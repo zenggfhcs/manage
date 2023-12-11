@@ -7,14 +7,16 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface DeletedLogMapper {
-List<DeletedLog> getBy(Parameter parameter);
+public interface DeletedLogMapper extends BaseMapper<DeletedLog> {
+DeletedLog getById(Parameter<DeletedLog> parameter);
 
-int create(Parameter parameter);
+List<DeletedLog> getBy(Parameter<DeletedLog> parameter);
 
-DeletedLog getById(Parameter parameter);
+int create(Parameter<DeletedLog> parameter);
 
-int update(Parameter parameter);
+int update(Parameter<DeletedLog> parameter);
 
-int delete(Parameter parameter);
+int delete(Parameter<DeletedLog> parameter);
+
+DeletedLog getByUpdate(Parameter<DeletedLog> parameter);
 }

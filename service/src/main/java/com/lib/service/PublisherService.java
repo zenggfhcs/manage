@@ -1,16 +1,17 @@
 package com.lib.service;
 
 import com.lib.model.Parameter;
+import com.lib.model.Publisher;
 import com.lib.model.Response;
 
-public interface PublisherService {
-Response getBy(Parameter parameter, String token);
+public interface PublisherService extends BaseService<Publisher> {
+Response getBy(Parameter<Publisher> parameter);
 
-Response create(Parameter parameter, String token);
+Response create(Parameter<Publisher> parameter);
 
-Response getById(Parameter parameter, String token);
+Response getById(Parameter<Publisher> parameter);
 
-Response update(Parameter parameter, String token);
+Response update(Parameter<Publisher> parameter);
 
-Response delete(Parameter parameter, String token);
+Response delete(Parameter<Publisher> parameter);
 }

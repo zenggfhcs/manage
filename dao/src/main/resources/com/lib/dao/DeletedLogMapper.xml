@@ -12,7 +12,8 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="INTEGER"/>
     </resultMap>
-    <insert id="create" parameterType="com.lib.model.Parameter" keyProperty="dLog.logId" keyColumn="log_id" useGeneratedKeys="true">
+    <insert id="create" parameterType="com.lib.model.Parameter" keyProperty="dLog.logId" keyColumn="log_id"
+            useGeneratedKeys="true">
         insert into delete_log(data_class, data_id, data, elapsed_time, create_time, create_by)
         values (#{dLog.dataClass}, #{dLog.dataId}, #{dLog.data}, 0, NOW(), #{dLog.createBy})
     </insert>
@@ -29,13 +30,12 @@
         where log_id = #{dLog.logId}
     </update>
     <delete id="delete">
-
     </delete>
     <select id="getBy" resultType="com.lib.model.DeletedLog">
-
     </select>
     <select id="getById" resultType="com.lib.model.DeletedLog">
-
     </select>
 
+    <select id="getByUpdate" resultMap="BaseResultMap">
+    </select>
 </mapper>

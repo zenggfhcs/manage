@@ -12,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class GetLogDefaultService implements GetLogService {
+public class GetLogDefaultService extends BaseDefaultService<GetLog> implements GetLogService {
 private final GetLogMapper getLogMapper;
 
 public GetLogDefaultService(GetLogMapper getLogMapper) {
+   super(getLogMapper);
    this.getLogMapper = getLogMapper;
 }
 
@@ -27,8 +28,8 @@ public GetLogDefaultService(GetLogMapper getLogMapper) {
 @Override
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public void createLog(GetLog log) {
-   Parameter parameter = new Parameter();
-   parameter.setGLog(log);
+   Parameter<GetLog> parameter = new Parameter<>();
+   parameter.setEntity(log);
    
    getLogMapper.create(parameter);
    
@@ -41,8 +42,8 @@ public void createLog(GetLog log) {
  */
 @Override
 public void updateLog(GetLog log) {
-   Parameter parameter = new Parameter();
-   parameter.setGLog(log);
+   Parameter<GetLog> parameter = new Parameter<>();
+   parameter.setEntity(log);
    
    getLogMapper.update(parameter);
 }
@@ -54,31 +55,30 @@ public void updateLog(GetLog log) {
  * @param token     请求 token
  * @return 日志
  */
-
 @Override
-public Response getBy(Parameter parameter, String token) {
+public Response getBy(Parameter<GetLog> parameter) {
    List<GetLog> logs = getLogMapper.getBy(parameter);
    
    return Response.success(logs);
 }
 
 @Override
-public Response create(Parameter parameter, String token) {
+public Response create(Parameter<GetLog> parameter) {
    return Response.success();
 }
 
 @Override
-public Response getById(Parameter parameter, String token) {
+public Response getById(Parameter<GetLog> parameter) {
    return Response.success();
 }
 
 @Override
-public Response update(Parameter parameter, String token) {
+public Response update(Parameter<GetLog> parameter) {
    return Response.success();
 }
 
 @Override
-public Response delete(Parameter parameter, String token) {
+public Response delete(Parameter<GetLog> parameter) {
    return Response.success();
 }
 }

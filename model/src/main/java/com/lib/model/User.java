@@ -1,15 +1,17 @@
 package com.lib.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class User extends BaseEntity {
 /**
  * 用户 id
  */
@@ -62,30 +64,6 @@ private Short age;
  * 最后登录时间
  */
 private LocalDateTime lastLoginTime;
-/**
- * 创建人
- */
-private Integer createBy;
-
-/**
- * 创建时间
- */
-private LocalDateTime createTime;
-
-/**
- * 最后更新者
- */
-private Integer updateBy;
-
-/**
- * 最后更新时间
- */
-private LocalDateTime updateTime;
-
-/**
- * 版本号，乐观锁
- */
-private Integer revision;
 
 /**
  * 测试是否具有对应权限
@@ -128,7 +106,7 @@ public enum State {
    IS_DELETE, // 已删除
    IS_ENABLE, // 已启用
    EMAIL_VERIFIED, // 邮箱已验证
-   PHONENUMBER_VERIFIED, // 电话号码已验证
+   PHONE_NUMBER_VERIFIED, // 电话号码已验证
 }
 
 public enum Condition {

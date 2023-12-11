@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lib.dao.UserMapper">
     <resultMap id="BaseResultMap" type="com.lib.model.User">
-        <id property="userId" column="user_id" jdbcType="INTEGER" />
-        <result property="authenticationString" column="authentication_string" jdbcType="VARCHAR" />
+        <id property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="authenticationString" column="authentication_string" jdbcType="VARCHAR"/>
         <result property="displayName" column="display_name" jdbcType="VARCHAR"/>
         <result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
         <result property="userPhoneNumber" column="user_phone_number" jdbcType="VARCHAR"/>
@@ -24,11 +24,11 @@
     </resultMap>
     <insert id="create" useGeneratedKeys="true" keyProperty="user.userId" parameterType="com.lib.model.Parameter">
         insert into user(authentication_string, display_name, user_email, user_phone_number, state, authority,
-                         surname, name, age, sex, last_login_time, create_by, create_time, update_by, update_time,
-                         revision)
+        surname, name, age, sex, last_login_time, create_by, create_time, update_by, update_time,
+        revision)
         values (MD5(#{user.authenticationString}), #{user.displayName}, #{user.userEmail}, #{user.userPhoneNumber},
-                #{user.state}, #{user.authority}, #{user.surname}, #{user.name}, #{user.age}, #{user.sex},
-                #{user.lastLoginTime}, #{user.createBy}, now(), #{user.updateBy}, now(), 0);
+        #{user.state}, #{user.authority}, #{user.surname}, #{user.name}, #{user.age}, #{user.sex},
+        #{user.lastLoginTime}, #{user.createBy}, now(), #{user.updateBy}, now(), 0);
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update user u
@@ -82,21 +82,21 @@
     </update>
     <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select u.user_id,
-               u.`display_name`,
-               u.`user_email`,
-               u.`user_phone_number`,
-               u.`state`,
-               u.`authority`,
-               u.`surname`,
-               u.`name`,
-               u.`age`,
-               u.`sex`,
-               u.`last_login_time`,
-               u.`create_by`,
-               u.`create_time`,
-               u.`update_by`,
-               u.`update_time`,
-               u.`revision`
+        u.`display_name`,
+        u.`user_email`,
+        u.`user_phone_number`,
+        u.`state`,
+        u.`authority`,
+        u.`surname`,
+        u.`name`,
+        u.`age`,
+        u.`sex`,
+        u.`last_login_time`,
+        u.`create_by`,
+        u.`create_time`,
+        u.`update_by`,
+        u.`update_time`,
+        u.`revision`
         from user u
         where u.`user_id` = #{id};
     </select>
@@ -104,7 +104,7 @@
         select count(*)
         from user u
         where u.user_id = #{user.userId}
-          and u.authentication_string = MD5(#{user.authenticationString});
+        and u.authentication_string = MD5(#{user.authenticationString});
     </select>
     <select id="has" resultType="java.lang.Integer" parameterType="com.lib.model.Parameter">
         select count(*)
@@ -113,21 +113,21 @@
     </select>
     <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select u.user_id,
-               u.display_name,
-               u.user_email,
-               u.user_phone_number,
-               u.state,
-               u.authority,
-               u.surname,
-               u.name,
-               u.age,
-               u.sex,
-               u.last_login_time,
-               u.create_by,
-               u.create_time,
-               u.update_by,
-               u.update_time,
-               u.revision
+        u.display_name,
+        u.user_email,
+        u.user_phone_number,
+        u.state,
+        u.authority,
+        u.surname,
+        u.name,
+        u.age,
+        u.sex,
+        u.last_login_time,
+        u.create_by,
+        u.create_time,
+        u.update_by,
+        u.update_time,
+        u.revision
         from user u
         <where>
             <if test="user.userId != null">
@@ -156,5 +156,8 @@
             </if>
         </where>
         limit #{pageStart}, #{pageSize}
+    </select>
+
+    <select id="getByUpdate" resultMap="BaseResultMap">
     </select>
 </mapper>

@@ -2,20 +2,20 @@ package com.lib.service;
 
 import com.lib.model.Parameter;
 import com.lib.model.Response;
-import com.lib.model.UpdatedLog;
+import com.lib.model.UpdateLog;
 
-public interface UpdateLogService {
-void createLog(UpdatedLog log);
+public interface UpdateLogService extends BaseService<UpdateLog> {
+void createLog(UpdateLog log);
 
-void updateLog(UpdatedLog log);
+void updateLog(UpdateLog log);
 
-Response getBy(Parameter parameter, String token);
+Response getBy(Parameter<UpdateLog> parameter);
 
-Response create(Parameter parameter, String token);
+Response create(Parameter<UpdateLog> parameter);
 
-Response getById(Parameter parameter, String token);
+Response getById(Parameter<UpdateLog> parameter);
 
-Response update(Parameter parameter, String token);
+Response update(Parameter<UpdateLog> parameter);
 
-Response delete(Parameter parameter, String token);
+Response delete(Parameter<UpdateLog> parameter);
 }

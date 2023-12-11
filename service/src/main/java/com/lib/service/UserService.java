@@ -2,19 +2,20 @@ package com.lib.service;
 
 import com.lib.model.Parameter;
 import com.lib.model.Response;
+import com.lib.model.User;
 
 public interface UserService {
-Response login(Parameter parameter, String token);
+Response login(Parameter<User> parameter);
 
-Response getBy(Parameter parameter, String token);
+Response getBy(Parameter<User>  parameter);
 
-Response create(Parameter parameter, String token);
+Response create(Parameter<User>  parameter);
 
-Response getById(Parameter parameter, String token);
+Response getById(Parameter<User>  parameter);
 
-Response update(Parameter parameter, String token);
+Response update(Parameter<User>  parameter);
 
-Response delete(Parameter parameter, String token);
+Response delete(Parameter<User>  parameter);
 
 
 }

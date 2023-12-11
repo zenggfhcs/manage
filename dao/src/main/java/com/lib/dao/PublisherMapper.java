@@ -7,20 +7,17 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface PublisherMapper {
+public interface PublisherMapper extends BaseMapper<Publisher> {
 
-Publisher getById(Parameter parameter);
+Publisher getById(Parameter<Publisher> parameter);
 
+List<Publisher> getBy(Parameter<Publisher> parameter);
 
-List<Publisher> getBy(Parameter parameter);
+int update(Parameter<Publisher> parameter);
 
+int create(Parameter<Publisher> parameter);
 
-int update(Parameter parameter);
+int delete(Parameter<Publisher> parameter);
 
-
-int create(Parameter parameter);
-
-int delete(Parameter parameter);
-
-Publisher getByUpdate(Parameter parameter);
+Publisher getByUpdate(Parameter<Publisher> parameter);
 }

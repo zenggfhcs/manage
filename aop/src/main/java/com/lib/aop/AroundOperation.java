@@ -3,7 +3,7 @@ package com.lib.aop;
 import com.lib.model.DeletedLog;
 import com.lib.model.GetLog;
 import com.lib.model.Parameter;
-import com.lib.model.UpdatedLog;
+import com.lib.model.UpdateLog;
 import com.lib.service.DeleteLogService;
 import com.lib.service.GetLogService;
 import com.lib.service.UpdateLogService;
@@ -30,6 +30,7 @@ public AroundOperation(GetLogService getLogService, UpdateLogService updateLogSe
    this.updateLogService = updateLogService;
    this.deleteLogService = deleteLogService;
 }
+
 /**
  * 记录查询
  *
@@ -41,6 +42,7 @@ public AroundOperation(GetLogService getLogService, UpdateLogService updateLogSe
 public Object logGet(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数
+   System.out.println(Json.stringify(point.getArgs()));
    Parameter _parameter = Parse.argsToParameter(point.getArgs());
    
    GetLog _getLog = GetLog.create();
@@ -102,16 +104,16 @@ public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数 => parameter
    Parameter _parameter = Parse.argsToParameter(point.getArgs());
-   UpdatedLog _updatedLog = new UpdatedLog();
+   UpdateLog _updateLog = new UpdateLog();
    {
-      _updatedLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
-      _updatedLog.setDataId(_parameter.getId());
-      _updatedLog.setOldData("");
-      _updatedLog.setNewData(Json.stringify(_parameter));
-      _updatedLog.setElapsedTime(0L);
-      _updatedLog.setCreateBy(_parameter.getTokenBody().getId());
+      _updateLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
+      _updateLog.setDataId(_parameter.getId());
+      _updateLog.setOldData("");
+      _updateLog.setNewData(Json.stringify(_parameter));
+      _updateLog.setElapsedTime(0L);
+      _updateLog.setCreateBy(_parameter.getTokenBody().getId());
       // 插入日志
-      updateLogService.createLog(_updatedLog);
+      updateLogService.createLog(_updateLog);
    }
    
    /* -------- 前 -------- */
@@ -123,11 +125,11 @@ public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
       /* -------- 后 -------- */
       Long _endTime = System.currentTimeMillis();
       {
-         _updatedLog.setElapsedTime(_endTime - _startTime);
+         _updateLog.setElapsedTime(_endTime - _startTime);
          _parameter.setTokenBody(null);
-         _updatedLog.setOldData(Json.stringify(_parameter));
+         _updateLog.setOldData(Json.stringify(_parameter));
          // 更新日志
-         updateLogService.updateLog(_updatedLog);
+         updateLogService.updateLog(_updateLog);
       }
       /* -------- 后 -------- */
    }

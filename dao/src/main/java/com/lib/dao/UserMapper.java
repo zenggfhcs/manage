@@ -9,24 +9,21 @@ import java.util.List;
 
 @Component
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
 
-List<User> getBy(Parameter parameter);
+List<User> getBy(Parameter<User> parameter);
 
+int create(Parameter<User> parameter);
 
-int create(Parameter parameter);
+User getById(Parameter<User> parameter);
 
+int delete(Parameter<User> parameter);
 
-User getById(Parameter parameter);
+int update(Parameter<User> parameter);
 
+User getByUpdate(Parameter<User> parameter);
 
-int delete(Parameter parameter);
+int has(Parameter<User> parameter);
 
-
-int update(Parameter parameter);
-
-
-int has(Parameter parameter);
-
-int login(Parameter parameter);
+int login(Parameter<User> parameter);
 }

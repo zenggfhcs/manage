@@ -28,15 +28,15 @@
     </resultMap>
     <insert id="create" parameterType="com.lib.model.Parameter" useGeneratedKeys="true" keyColumn="bookInfo.bookInfoId">
         insert into book_info (publish_id, publish_place, isbn, cip, book_name, book_type, cover, author,
-                               `describe`, publish_date, keyword, lang, price, stock, create_by, create_time, update_by,
-                               update_time, revision)
+        `describe`, publish_date, keyword, lang, price, stock, create_by, create_time, update_by,
+        update_time, revision)
         VALUES ( #{bookInfo.publisher.publishId}, #{bookInfo.publishPlace}, #{bookInfo.isbn}, #{bookInfo.cip}
-               , #{bookInfo.bookName}
-               , #{bookInfo.bookType}, #{bookInfo.cover}, #{bookInfo.author}, #{bookInfo.describe}
-               , #{bookInfo.publishDate}
-               , #{bookInfo.keyword}, #{bookInfo.lang}, #{bookInfo.price}, #{bookInfo.stock}, #{bookInfo.createBy}
-               , NOW()
-               , #{bookInfo.updateBy}, now(), #{bookInfo.revision})
+        , #{bookInfo.bookName}
+        , #{bookInfo.bookType}, #{bookInfo.cover}, #{bookInfo.author}, #{bookInfo.describe}
+        , #{bookInfo.publishDate}
+        , #{bookInfo.keyword}, #{bookInfo.lang}, #{bookInfo.price}, #{bookInfo.stock}, #{bookInfo.createBy}
+        , NOW()
+        , #{bookInfo.updateBy}, now(), #{bookInfo.revision})
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update book_info bif
@@ -101,50 +101,66 @@
     </delete>
     <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select distinct bif.`book_info_id`,
-                        bif.`publish_id`,
-                        bif.`publish_place`,
-                        bif.`isbn`,
-                        bif.`cip`,
-                        bif.`book_name`,
-                        bif.`book_type`,
-                        bif.`cover`,
-                        bif.`author`,
-                        bif.`describe`,
-                        bif.`publish_date`,
-                        bif.`keyword`,
-                        bif.`lang`,
-                        bif.`price`,
-                        bif.`stock`,
-                        bif.`create_by`,
-                        bif.`create_time`,
-                        bif.`update_by`,
-                        bif.`update_time`,
-                        bif.`revision`
+        bif.`publish_id`,
+        bif.`publish_place`,
+        bif.`isbn`,
+        bif.`cip`,
+        bif.`book_name`,
+        bif.`book_type`,
+        bif.`cover`,
+        bif.`author`,
+        bif.`describe`,
+        bif.`publish_date`,
+        bif.`keyword`,
+        bif.`lang`,
+        bif.`price`,
+        bif.`stock`,
+        bif.`create_by`,
+        bif.`create_time`,
+        bif.`update_by`,
+        bif.`update_time`,
+        bif.`revision`
         from book_info bif
         <where>
+            <if test="bookInfo != null">
+                <if test="bookInfo.bookInfoId != null">
+                    bif.`book_info_id` = #{bookInfo.bookInfoId}
+                </if>
+            </if>
         </where>
     </select>
     <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select distinct bif.`book_info_id`,
-                        bif.`publish_id`,
-                        bif.`publish_place`,
-                        bif.`isbn`,
-                        bif.`cip`,
-                        bif.`book_name`,
-                        bif.`book_type`,
-                        bif.`cover`,
-                        bif.`author`,
-                        bif.`describe`,
-                        bif.`publish_date`,
-                        bif.`keyword`,
-                        bif.`lang`,
-                        bif.`price`,
-                        bif.`stock`,
-                        bif.`create_by`,
-                        bif.`create_time`,
-                        bif.`update_by`,
-                        bif.`update_time`,
-                        bif.`revision`
+        bif.`publish_id`,
+        bif.`publish_place`,
+        bif.`isbn`,
+        bif.`cip`,
+        bif.`book_name`,
+        bif.`book_type`,
+        bif.`cover`,
+        bif.`author`,
+        bif.`describe`,
+        bif.`publish_date`,
+        bif.`keyword`,
+        bif.`lang`,
+        bif.`price`,
+        bif.`stock`,
+        bif.`create_by`,
+        bif.`create_time`,
+        bif.`update_by`,
+        bif.`update_time`,
+        bif.`revision`
+        from book_info bif
+        where bif.`book_info_id` = #{id}
+    </select>
+
+    <select id="getByUpdate" resultMap="BaseResultMap">
+        select
+        <trim suffixOverrides=",">
+            <if test="bookInfo.author != null">
+                bif.`author`,
+            </if>
+        </trim>
         from book_info bif
         where bif.`book_info_id` = #{id}
     </select>

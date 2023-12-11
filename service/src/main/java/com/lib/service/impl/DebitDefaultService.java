@@ -1,6 +1,7 @@
 package com.lib.service.impl;
 
 import com.lib.dao.DebitMapper;
+import com.lib.model.Debit;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
 import com.lib.service.DebitService;
@@ -11,34 +12,35 @@ import org.springframework.stereotype.Service;
 public class DebitDefaultService implements DebitService {
 
 private final DebitMapper debitMapper;
-
+private final BaseDefaultService<Debit> baseService;
 @Autowired
 public DebitDefaultService(DebitMapper debitMapper) {
    this.debitMapper = debitMapper;
+   baseService = new BaseDefaultService<>(debitMapper);
 }
 
 @Override
-public Response getBy(Parameter parameter, String token) {
+public Response getBy(Parameter<Debit> parameter) {
+   return baseService.getBy(parameter);
+}
+
+@Override
+public Response create(Parameter<Debit> parameter) {
    return Response.success();
 }
 
 @Override
-public Response create(Parameter parameter, String token) {
+public Response getById(Parameter<Debit> parameter) {
    return Response.success();
 }
 
 @Override
-public Response getById(Parameter parameter, String token) {
+public Response update(Parameter<Debit> parameter) {
    return Response.success();
 }
 
 @Override
-public Response update(Parameter parameter, String token) {
-   return Response.success();
-}
-
-@Override
-public Response delete(Parameter parameter, String token) {
+public Response delete(Parameter<Debit> parameter) {
    return Response.success();
 }
 }

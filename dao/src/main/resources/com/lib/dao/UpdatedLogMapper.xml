@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lib.dao.UpdatedLogMapper">
-    <resultMap id="BaseResultMap" type="com.lib.model.UpdatedLog">
+    <resultMap id="BaseResultMap" type="com.lib.model.UpdateLog">
         <id property="logId" column="log_id" jdbcType="BIGINT"/>
         <result property="dataClass" column="class_name" jdbcType="VARCHAR"/>
         <result property="dataId" column="data_id" jdbcType="INTEGER"/>
@@ -16,7 +16,7 @@
             useGeneratedKeys="true">
         insert into update_log(data_class, data_id, old_data, new_data, elapsed_time, create_time, create_by)
         values (#{uLog.dataClass}, #{uLog.dataId}, #{uLog.oldData}, #{uLog.newData}, #{uLog.elapsedTime}, NOW(),
-                #{uLog.createBy})
+        #{uLog.createBy})
     </insert>
     <update id="update">
         update update_log u
@@ -30,4 +30,16 @@
         </set>
         where log_id = #{uLog.logId}
     </update>
+
+    <select id="getBy" resultMap="BaseResultMap">
+    </select>
+
+    <select id="getById" resultMap="BaseResultMap">
+    </select>
+
+    <delete id="delete">
+    </delete>
+
+    <select id="getByUpdate" resultMap="BaseResultMap">
+    </select>
 </mapper>

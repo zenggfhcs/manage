@@ -3,6 +3,7 @@ package com.lib.web.controller;
 
 import com.lib.model.Parameter;
 import com.lib.model.Response;
+import com.lib.model.User;
 import com.lib.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,39 +20,38 @@ public UserController(UserService userService) {
 }
 
 @PostMapping("/login")
-public Response login(@RequestBody Parameter parameter, @RequestHeader("token") String token) {
-   return userService.login(parameter, token);
+public Response login(@RequestBody Parameter<User> parameter, @RequestHeader("token") String token) {
+   return userService.login(parameter);
 }
 
 @GetMapping
-public Response getUsers(Parameter parameter, @RequestHeader("token") String token) {
-   return userService.getBy(parameter, token);
+public Response getUsers(Parameter<User> parameter, @RequestHeader("token") String token) {
+   return userService.getBy(parameter);
 }
 
 @PostMapping
-public Response createUser(@RequestBody Parameter parameter, @RequestHeader("token") String token) {
-   return userService.create(parameter, token);
+public Response createUser(@RequestBody Parameter<User> parameter, @RequestHeader("token") String token) {
+   return userService.create(parameter);
 }
 
 @GetMapping("/{id}")
 public Response getUser(@PathVariable Integer id, @RequestHeader("token") String token) {
-   Parameter parameter = new Parameter();
-   parameter.setId(id);
-   return userService.getById(parameter, token);
+   Parameter<User> _parameter = new Parameter<>();
+   _parameter.setId(id);
+   return userService.getById(_parameter);
 }
 
 @PatchMapping("/{id}")
-public Response updateUser(@PathVariable Integer id, @RequestBody Parameter parameter, @RequestHeader("token") String token) {
+public Response updateUser(@PathVariable Integer id, @RequestBody Parameter<User> parameter, @RequestHeader("token") String token) {
    parameter.setId(id);
-   return userService.update(parameter, token);
+   return userService.update(parameter);
 }
 
 
 @DeleteMapping("/{id}")
 public Response deleteUser(@PathVariable Integer id, @RequestHeader("token") String token) {
-   Parameter parameter = new Parameter();
-   parameter.setId(id);
-   
-   return userService.delete(parameter, token);
+   Parameter<User> _parameter = new Parameter<>();
+   _parameter.setId(id);
+   return userService.delete(_parameter);
 }
 }

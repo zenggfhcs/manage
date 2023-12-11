@@ -59,6 +59,7 @@ public static Response success() {
 public static Response error(String message) {
    return new Response(LocalDateTime.now(), -1, message, null);
 }
+
 public static Response error(Integer code, String message) {
    return new Response(LocalDateTime.now(), code, message, null);
 }

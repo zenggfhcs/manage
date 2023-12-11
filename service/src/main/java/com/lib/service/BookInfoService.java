@@ -1,16 +1,17 @@
 package com.lib.service;
 
+import com.lib.model.BookInfo;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
 
-public interface BookInfoService {
-Response getBy(Parameter parameter, String token);
+public interface BookInfoService extends BaseService<BookInfo> {
+Response getBy(Parameter<BookInfo> parameter);
 
-Response create(Parameter parameter, String token);
+Response create(Parameter<BookInfo> parameter);
 
-Response getById(Parameter parameter, String token);
+Response getById(Parameter<BookInfo> parameter);
 
-Response update(Parameter parameter, String token);
+Response update(Parameter<BookInfo> parameter);
 
-Response delete(Parameter parameter, String token);
+Response delete(Parameter<BookInfo> parameter);
 }

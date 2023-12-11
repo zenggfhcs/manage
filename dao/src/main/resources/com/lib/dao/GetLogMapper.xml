@@ -18,7 +18,7 @@
             parameterType="com.lib.model.Parameter">
         insert into get_log(method, class_name, parameter, return_value, elapsed_time, run_time, create_time, create_by)
         values (#{gLog.method}, #{gLog.className}, #{gLog.parameter}, #{gLog.returnValue}, #{gLog.elapsedTime},
-                #{gLog.runTime}, now(), #{gLog.createBy})
+        #{gLog.runTime}, now(), #{gLog.createBy})
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update get_log
@@ -69,16 +69,18 @@
     </select>
     <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select l.`log_id`,
-               l.`class_name`,
-               l.`method`,
-               l.`parameter`,
-               l.`return_value`,
-               l.`elapsed_time`,
-               l.`run_time`,
-               l.`create_time`,
-               l.`create_by`
+        l.`class_name`,
+        l.`method`,
+        l.`parameter`,
+        l.`return_value`,
+        l.`elapsed_time`,
+        l.`run_time`,
+        l.`create_time`,
+        l.`create_by`
         from get_log l
         where l.`log_id` = #{id}
     </select>
 
+    <select id="getByUpdate" resultMap="BaseResultMap">
+    </select>
 </mapper>

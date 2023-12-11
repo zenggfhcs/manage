@@ -1,15 +1,15 @@
 package com.lib.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdatedLog {
+public class UpdateLog extends BaseEntity {
 /**
  * 日志 id
  */
@@ -34,12 +34,4 @@ private String newData;
  * 方法耗时
  */
 private Long elapsedTime;
-/**
- * 日志创建时间
- */
-private LocalDateTime createTime;
-/**
- * 日志创建者（方法调用者）
- */
-private Integer createBy;
 }

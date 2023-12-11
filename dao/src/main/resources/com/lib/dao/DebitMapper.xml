@@ -11,7 +11,7 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
         <result column="revision" jdbcType="INTEGER" property="revision"/>
         <association property="book" javaType="com.lib.model.Book" column="{id=book_id}"
-                     select="com.lib.dao.BookMapper.getById" />
+                     select="com.lib.dao.BookMapper.getById"/>
     </resultMap>
     <select id="getBy" parameterType="com.lib.model.Parameter" resultMap="BaseResultMap">
         select distinct d.`debit_id`,
@@ -28,14 +28,14 @@
 
     <select id="getById" parameterType="com.lib.model.Parameter" resultMap="BaseResultMap">
         select distinct d.`debit_id`,
-                        d.`book_id`,
-                        d.`return_deadline`,
-                        d.`return_date`,
-                        d.`create_by`,
-                        d.`create_time`,
-                        d.`update_by`,
-                        d.`update_time`,
-                        d.`revision`
+        d.`book_id`,
+        d.`return_deadline`,
+        d.`return_date`,
+        d.`create_by`,
+        d.`create_time`,
+        d.`update_by`,
+        d.`update_time`,
+        d.`revision`
         from debit d
         where d.`debit_id` = #{id}
     </select>
@@ -48,11 +48,11 @@
 
     <insert id="create" parameterType="com.lib.model.Parameter" useGeneratedKeys="true" keyColumn="debit.debitId">
         insert into debit (`book_id`, `return_deadline`,
-                           `return_date`, `create_by`, `create_time`,
-                           `update_by`, `update_time`, `revision`)
+        `return_date`, `create_by`, `create_time`,
+        `update_by`, `update_time`, `revision`)
         values (#{debit.book.bookId}, #{debit.returnDeadline},
-                #{debit.returnDate}, #{debit.createBy}, NOW(),
-                #{debit.updateBy}, NOW(), #{debit.revision})
+        #{debit.returnDate}, #{debit.createBy}, NOW(),
+        #{debit.updateBy}, NOW(), #{debit.revision})
     </insert>
 
     <update id="update" parameterType="com.lib.model.Parameter">
@@ -79,4 +79,7 @@
         </set>
         where d.`debit_id` = #{id}
     </update>
+
+    <select id="getByUpdate" resultMap="BaseResultMap">
+    </select>
 </mapper>

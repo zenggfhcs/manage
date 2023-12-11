@@ -7,17 +7,17 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface GetLogMapper {
+public interface GetLogMapper extends BaseMapper<GetLog> {
+GetLog getById(Parameter<GetLog> parameter);
 
-List<GetLog> getBy(Parameter parameter);
+List<GetLog> getBy(Parameter<GetLog> parameter);
 
-int create(Parameter parameter);
+int create(Parameter<GetLog> parameter);
 
+int update(Parameter<GetLog> parameter);
 
-GetLog getById(Parameter parameter);
+int delete(Parameter<GetLog> parameter);
 
-int update(Parameter parameter);
-
-int delete(Parameter parameter);
+GetLog getByUpdate(Parameter<GetLog> parameter);
 
 }

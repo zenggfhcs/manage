@@ -18,9 +18,9 @@
     <insert id="create" useGeneratedKeys="true" keyColumn="book.bookId"
             parameterType="com.lib.model.Parameter">
         insert into book (book_damage_level, borrowable, book_info_id, create_by, create_time, update_by,
-                          update_time, revision)
+        update_time, revision)
         VALUES (#{book.bookDamageLevel}, #{book.borrowable}, #{book.bookInfo.bookInfoId}, #{book.createBy}, now(),
-                #{book.updateBy}, now(), #{book.revision})
+        #{book.updateBy}, now(), #{book.revision})
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update book b
@@ -52,30 +52,32 @@
     </delete>
     <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select b.`book_id`,
-               b.`book_damage_level`,
-               b.`borrowable`,
-               b.`book_info_id`,
-               b.`create_by`,
-               b.`create_time`,
-               b.`update_by`,
-               b.`update_time`,
-               b.`revision`
+        b.`book_damage_level`,
+        b.`borrowable`,
+        b.`book_info_id`,
+        b.`create_by`,
+        b.`create_time`,
+        b.`update_by`,
+        b.`update_time`,
+        b.`revision`
         from book b
         <where>
-
         </where>
     </select>
     <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select b.`book_id`,
-               b.`book_damage_level`,
-               b.`borrowable`,
-               b.`book_info_id`,
-               b.`create_by`,
-               b.`create_time`,
-               b.`update_by`,
-               b.`update_time`,
-               b.`revision`
+        b.`book_damage_level`,
+        b.`borrowable`,
+        b.`book_info_id`,
+        b.`create_by`,
+        b.`create_time`,
+        b.`update_by`,
+        b.`update_time`,
+        b.`revision`
         from book b
         where b.`book_id` = #{id}
+    </select>
+
+    <select id="getByUpdate" resultMap="BaseResultMap">
     </select>
 </mapper>

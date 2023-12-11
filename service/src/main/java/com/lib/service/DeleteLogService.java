@@ -4,18 +4,18 @@ import com.lib.model.DeletedLog;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
 
-public interface DeleteLogService {
+public interface DeleteLogService extends BaseService<DeletedLog> {
 void createLog(DeletedLog log);
 
 void updateLog(DeletedLog log);
 
-Response getBy(Parameter parameter, String token);
+Response getBy(Parameter<DeletedLog> parameter);
 
-Response create(Parameter parameter, String token);
+Response create(Parameter<DeletedLog> parameter);
 
-Response getById(Parameter parameter, String token);
+Response getById(Parameter<DeletedLog> parameter);
 
-Response update(Parameter parameter, String token);
+Response update(Parameter<DeletedLog> parameter);
 
-Response delete(Parameter parameter, String token);
+Response delete(Parameter<DeletedLog> parameter);
 }
