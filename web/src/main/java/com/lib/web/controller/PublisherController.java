@@ -1,5 +1,6 @@
 package com.lib.web.controller;
 
+import com.lib.anno.BeforeConduct;
 import com.lib.model.Parameter;
 import com.lib.model.Publisher;
 import com.lib.model.Response;
@@ -25,10 +26,12 @@ public Response createPublisher(@RequestBody Parameter<Publisher> parameter, @Re
    return publisherService.create(parameter);
 }
 
+@BeforeConduct
 @GetMapping("/{id}")
 public Response getPublisher(@PathVariable Integer id, @RequestHeader("token") String token) {
    Parameter<Publisher> _parameter = new Parameter<>();
    _parameter.setId(id);
+   
    return publisherService.getById(_parameter);
 }
 

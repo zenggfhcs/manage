@@ -1,6 +1,5 @@
 package com.lib.service.impl;
 
-import com.lib.anno.AroundUpdate;
 import com.lib.dao.UserMapper;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
@@ -53,7 +52,7 @@ public Response getById(Parameter<User> parameter) {
    return Response.success();
 }
 
-@AroundUpdate
+
 @Override
 public Response update(Parameter<User> parameter) {
    return Response.error("更新失败");

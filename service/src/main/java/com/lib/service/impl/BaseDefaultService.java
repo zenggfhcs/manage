@@ -1,7 +1,5 @@
 package com.lib.service.impl;
 
-import com.lib.anno.AroundDelete;
-import com.lib.anno.AroundUpdate;
 import com.lib.dao.BaseMapper;
 import com.lib.model.BaseEntity;
 import com.lib.model.Parameter;
@@ -47,7 +45,6 @@ public Response create(Parameter<T> parameter) {
    return Response.success();
 }
 
-@AroundUpdate
 @Override
 public Response update(Parameter<T> parameter) {
    // 新数据
@@ -75,7 +72,7 @@ public Response update(Parameter<T> parameter) {
    return Response.success();
 }
 
-@AroundDelete
+
 @Override
 public Response delete(Parameter<T> parameter) {
    T _entity = baseMapper.getById(parameter);

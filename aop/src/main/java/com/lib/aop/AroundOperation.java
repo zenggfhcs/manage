@@ -3,7 +3,7 @@ package com.lib.aop;
 import com.lib.model.DeletedLog;
 import com.lib.model.GetLog;
 import com.lib.model.Parameter;
-import com.lib.model.UpdateLog;
+import com.lib.model.UpdatedLog;
 import com.lib.service.DeleteLogService;
 import com.lib.service.GetLogService;
 import com.lib.service.UpdateLogService;
@@ -104,16 +104,16 @@ public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数 => parameter
    Parameter _parameter = Parse.argsToParameter(point.getArgs());
-   UpdateLog _updateLog = new UpdateLog();
+   UpdatedLog _updatedLog = new UpdatedLog();
    {
-      _updateLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
-      _updateLog.setDataId(_parameter.getId());
-      _updateLog.setOldData("");
-      _updateLog.setNewData(Json.stringify(_parameter));
-      _updateLog.setElapsedTime(0L);
-      _updateLog.setCreateBy(_parameter.getTokenBody().getId());
+      _updatedLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
+      _updatedLog.setDataId(_parameter.getId());
+      _updatedLog.setOldData("");
+      _updatedLog.setNewData(Json.stringify(_parameter));
+      _updatedLog.setElapsedTime(0L);
+      _updatedLog.setCreateBy(_parameter.getTokenBody().getId());
       // 插入日志
-      updateLogService.createLog(_updateLog);
+      updateLogService.createLog(_updatedLog);
    }
    
    /* -------- 前 -------- */
@@ -125,11 +125,11 @@ public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
       /* -------- 后 -------- */
       Long _endTime = System.currentTimeMillis();
       {
-         _updateLog.setElapsedTime(_endTime - _startTime);
+         _updatedLog.setElapsedTime(_endTime - _startTime);
          _parameter.setTokenBody(null);
-         _updateLog.setOldData(Json.stringify(_parameter));
+         _updatedLog.setOldData(Json.stringify(_parameter));
          // 更新日志
-         updateLogService.updateLog(_updateLog);
+         updateLogService.updateLog(_updatedLog);
       }
       /* -------- 后 -------- */
    }

@@ -18,6 +18,7 @@ public static Parameter argsToParameter(Object[] args) {
    return _parameter;
 }
 
+
 /**
  * 将 com.lib.service.impl.<b>XXX</b>DefaultService
  * 转换成 com.lib.model.<b>XXX</b>

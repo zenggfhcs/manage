@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateLog extends BaseEntity {
+public class UpdatedLog extends BaseEntity {
 /**
  * 日志 id
  */

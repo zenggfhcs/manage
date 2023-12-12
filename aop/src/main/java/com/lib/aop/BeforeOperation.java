@@ -14,7 +14,7 @@ public class BeforeOperation {
  *
  * @param point service-method
  */
-@Before("@annotation(com.lib.anno.BeforeService)")
+@Before("@annotation(com.lib.anno.BeforeConduct)")
 public void beforeService(JoinPoint point) {
    // 预期参数为 { parameter, token }
    Parse.argsToParameter(point.getArgs());

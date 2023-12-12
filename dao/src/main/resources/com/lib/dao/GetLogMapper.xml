@@ -14,23 +14,23 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="INTEGER"/>
     </resultMap>
-    <insert id="create" useGeneratedKeys="true" keyProperty="gLog.logId" keyColumn="log_id"
+    <insert id="create" useGeneratedKeys="true" keyProperty="entity.logId" keyColumn="log_id"
             parameterType="com.lib.model.Parameter">
         insert into get_log(method, class_name, parameter, return_value, elapsed_time, run_time, create_time, create_by)
-        values (#{gLog.method}, #{gLog.className}, #{gLog.parameter}, #{gLog.returnValue}, #{gLog.elapsedTime},
-        #{gLog.runTime}, now(), #{gLog.createBy})
+        values (#{entity.method}, #{entity.className}, #{entity.parameter}, #{entity.returnValue}, #{entity.elapsedTime},
+        #{entity.runTime}, now(), #{entity.createBy})
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update get_log
         <set>
-            <if test="gLog.returnValue != null and gLog.returnValue != ''">
-                return_value = #{gLog.returnValue},
+            <if test="entity.returnValue != null and entity.returnValue != ''">
+                return_value = #{entity.returnValue},
             </if>
-            <if test="gLog.elapsedTime != null">
-                elapsed_time = #{gLog.elapsedTime},
+            <if test="entity.elapsedTime != null">
+                elapsed_time = #{entity.elapsedTime},
             </if>
         </set>
-        where log_id = #{gLog.logId}
+        where log_id = #{entity.logId}
     </update>
     <delete id="delete" parameterType="com.lib.model.Parameter">
         delete from get_log
@@ -49,15 +49,15 @@
         l.create_by
         from get_log l
         <where>
-            <if test="gLog.logId != null">
-                l.log_id = #{gLog.logId}
+            <if test="entity.logId != null">
+                l.log_id = #{entity.logId}
             </if>
-            <if test="gLog.logId == null">
-                <if test="gLog.createBy != null">
-                    l.create_by = #{gLog.createBy}
+            <if test="entity.logId == null">
+                <if test="entity.createBy != null">
+                    l.create_by = #{entity.createBy}
                 </if>
-                <if test="gLog.method != null and gLog.method != ''">
-                    and l.method = #{gLog.method}
+                <if test="entity.method != null and entity.method != ''">
+                    and l.method = #{entity.method}
                 </if>
                 <if test="1 == 1">
                     and l.elapsed_time between #{minElapsedTime} and #{maxElapsedTime}

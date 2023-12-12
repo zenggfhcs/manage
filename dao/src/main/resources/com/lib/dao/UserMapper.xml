@@ -22,63 +22,63 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="revision" column="revision" jdbcType="INTEGER"/>
     </resultMap>
-    <insert id="create" useGeneratedKeys="true" keyProperty="user.userId" parameterType="com.lib.model.Parameter">
+    <insert id="create" useGeneratedKeys="true" keyProperty="entity.userId" parameterType="com.lib.model.Parameter">
         insert into user(authentication_string, display_name, user_email, user_phone_number, state, authority,
         surname, name, age, sex, last_login_time, create_by, create_time, update_by, update_time,
         revision)
-        values (MD5(#{user.authenticationString}), #{user.displayName}, #{user.userEmail}, #{user.userPhoneNumber},
-        #{user.state}, #{user.authority}, #{user.surname}, #{user.name}, #{user.age}, #{user.sex},
-        #{user.lastLoginTime}, #{user.createBy}, now(), #{user.updateBy}, now(), 0);
+        values (MD5(#{entity.authenticationString}), #{entity.displayName}, #{entity.userEmail}, #{entity.userPhoneNumber},
+        #{entity.state}, #{entity.authority}, #{entity.surname}, #{entity.name}, #{entity.age}, #{entity.sex},
+        #{entity.lastLoginTime}, #{entity.createBy}, now(), #{entity.updateBy}, now(), 0);
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update user u
         <set>
-            <if test="user.authenticationString != null and user.authenticationString != ''">
-                authentication_string = MD5(#{user.authenticationString}),
+            <if test="entity.authenticationString != null and entity.authenticationString != ''">
+                authentication_string = MD5(#{entity.authenticationString}),
             </if>
-            <if test="user.displayName != null and user.displayName != ''">
-                display_name = #{user.displayName},
+            <if test="entity.displayName != null and entity.displayName != ''">
+                display_name = #{entity.displayName},
             </if>
-            <if test="user.userEmail != null and user.userEmail != ''">
-                user_email = #{user.userEmail},
+            <if test="entity.userEmail != null and entity.userEmail != ''">
+                user_email = #{entity.userEmail},
             </if>
-            <if test="user.state != null">
-                state = #{user.state},
+            <if test="entity.state != null">
+                state = #{entity.state},
             </if>
-            <if test="user.authority != null">
-                authority = #{user.authority},
+            <if test="entity.authority != null">
+                authority = #{entity.authority},
             </if>
-            <if test="user.surname != null">
-                surname = #{user.surname},
+            <if test="entity.surname != null">
+                surname = #{entity.surname},
             </if>
-            <if test="user.name != null">
-                name = #{user.name},
+            <if test="entity.name != null">
+                name = #{entity.name},
             </if>
-            <if test="user.age != null">
-                age = #{user.age},
+            <if test="entity.age != null">
+                age = #{entity.age},
             </if>
-            <if test="user.sex != null">
-                sex = #{user.sex},
+            <if test="entity.sex != null">
+                sex = #{entity.sex},
             </if>
-            <if test="user.lastLoginTime != null">
-                last_login_time = #{user.lastLoginTime},
+            <if test="entity.lastLoginTime != null">
+                last_login_time = #{entity.lastLoginTime},
             </if>
-            <if test="user.updateBy != null">
-                update_by = #{user.updateBy},
+            <if test="entity.updateBy != null">
+                update_by = #{entity.updateBy},
             </if>
             <if test="1 == 1">
                 update_time = now(),
             </if>
-            <if test="user.revision != null">
-                revision = #{user.revision},
+            <if test="entity.revision != null">
+                revision = #{entity.revision},
             </if>
         </set>
         where user_id = #{id}
     </update>
     <update id="delete" parameterType="com.lib.model.Parameter">
         update user u
-        set u.state = #{user.state}
-        where u.user_id = #{user.userId};
+        set u.state = #{entity.state}
+        where u.user_id = #{entity.userId};
     </update>
     <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select u.user_id,
@@ -103,8 +103,8 @@
     <select id="login" resultType="java.lang.Integer" parameterType="com.lib.model.Parameter">
         select count(*)
         from user u
-        where u.user_id = #{user.userId}
-        and u.authentication_string = MD5(#{user.authenticationString});
+        where u.user_id = #{entity.userId}
+        and u.authentication_string = MD5(#{entity.authenticationString});
     </select>
     <select id="has" resultType="java.lang.Integer" parameterType="com.lib.model.Parameter">
         select count(*)
@@ -130,8 +130,8 @@
         u.revision
         from user u
         <where>
-            <if test="user.userId != null">
-                u.user_id = #{user.userId}
+            <if test="entity.userId != null">
+                u.user_id = #{entity.userId}
             </if>
             <if test="1 == 1">
                 and u.age between #{minAge} and #{maxAge}
@@ -139,20 +139,20 @@
                 and u.create_time between #{minCreateTime} and #{maxCreateTime}
                 and u.update_time between #{minUpdateTime} and #{maxUpdateTime}
             </if>
-            <if test="user.surname != null and user.surname != ''">
-                and u.surname = #{user.surname}
+            <if test="entity.surname != null and entity.surname != ''">
+                and u.surname = #{entity.surname}
             </if>
-            <if test="user.name != null and user.name != ''">
-                and u.name = #{user.name}
+            <if test="entity.name != null and entity.name != ''">
+                and u.name = #{entity.name}
             </if>
-            <if test="user.userEmail != null and user.userEmail != ''">
-                and u.user_email = #{user.userEmail}
+            <if test="entity.userEmail != null and entity.userEmail != ''">
+                and u.user_email = #{entity.userEmail}
             </if>
-            <if test="user.userPhoneNumber != null and user.userPhoneNumber != ''">
-                and u.user_phone_number like CONCAT(#{user.userPhoneNumber}, '%')
+            <if test="entity.userPhoneNumber != null and entity.userPhoneNumber != ''">
+                and u.user_phone_number like CONCAT(#{entity.userPhoneNumber}, '%')
             </if>
-            <if test="user.name != null and user.name != ''">
-                and u.name like CONCAT('%', #{user.name}, '%')
+            <if test="entity.name != null and entity.name != ''">
+                and u.name like CONCAT('%', #{entity.name}, '%')
             </if>
         </where>
         limit #{pageStart}, #{pageSize}

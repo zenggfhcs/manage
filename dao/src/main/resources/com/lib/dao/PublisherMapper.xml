@@ -25,47 +25,47 @@
         p.`revision`
         from publisher p
         <where>
-            <if test="publisher.publishId != null">
-                p.`publish_id` = #{publisher.publishId}
+            <if test="entity.publishId != null">
+                p.`publish_id` = #{entity.publishId}
             </if>
-            <if test="publisher.createBy != null">
-                and p.`create_by` = #{publisher.createBy}
+            <if test="entity.createBy != null">
+                and p.`create_by` = #{entity.createBy}
             </if>
-            <if test="publisher.updateBy != null">
-                and p.`update_by` = #{publisher.updateBy}
+            <if test="entity.updateBy != null">
+                and p.`update_by` = #{entity.updateBy}
             </if>
             <if test="1 == 1">
                 and p.`create_time` between #{minCreateTime} and #{maxCreateTime}
                 and p.`update_time` between #{minUpdateTime} and #{maxUpdateTime}
             </if>
-            <if test="publisher.name != null and publisher.name != ''">
-                and p.`name` like concat('%', #{publisher.name}, '%')
+            <if test="entity.name != null and entity.name != ''">
+                and p.`name` like concat('%', #{entity.name}, '%')
             </if>
         </where>
     </select>
-    <insert id="create" parameterType="com.lib.model.Parameter" useGeneratedKeys="true" keyColumn="publisher.publishId">
+    <insert id="create" parameterType="com.lib.model.Parameter" useGeneratedKeys="true" keyColumn="entity.publishId">
         insert into publisher(name, remark, create_by, create_time, update_by, update_time, revision)
-        values (#{publisher.name}, #{publisher.remark}, #{tokenBody.id}, NOW(), #{tokenBody.id}, NOW(),
-        0)
+        values (#{entity.name}, #{entity.remark}, #{tokenBody.id}, NOW(), #{tokenBody.id}, NOW(),
+                0)
     </insert>
     <update id="update" parameterType="com.lib.model.Parameter">
         update publisher p
         <set>
-            <if test="publisher.name != null and publisher.name != ''">
-                p.`name` = #{publisher.name},
+            <if test="entity.name != null and entity.name != ''">
+                p.`name` = #{entity.name},
             </if>
-            <if test="publisher.remark != null and publisher.remark != ''">
-                p.`remark` = #{publisher.remark},
+            <if test="entity.remark != null and entity.remark != ''">
+                p.`remark` = #{entity.remark},
             </if>
-            <if test="publisher.updateBy != null">
-                p.`update_by` = #{publisher.updateBy},
+            <if test="entity.updateBy != null">
+                p.`update_by` = #{entity.updateBy},
             </if>
             <if test="1 == 1">
                 p.`update_time` = NOW(),
                 p.`revision` = (p.`revision` + 1) % 2147483647
             </if>
         </set>
-        where p.`publish_id` = #{id} and p.`revision` = #{publisher.revision};
+        where p.`publish_id` = #{id} and p.`revision` = #{entity.revision};
     </update>
     <delete id="delete" parameterType="com.lib.model.Parameter">
         delete
@@ -88,10 +88,10 @@
     <select id="getByUpdate" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
         select
         <trim suffixOverrides=",">
-            <if test="publisher.name != null and publisher.name != ''">
+            <if test="entity.name != null and entity.name != ''">
                 p.`name`,
             </if>
-            <if test="publisher.remark != null and publisher.remark != ''">
+            <if test="entity.remark != null and entity.remark != ''">
                 p.`remark`,
             </if>
             <if test="1 == 1">
