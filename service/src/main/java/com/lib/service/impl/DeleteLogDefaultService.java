@@ -8,11 +8,12 @@ import com.lib.service.DeleteLogService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DeleteLogDefaultService extends BaseDefaultService<DeletedLog> implements DeleteLogService {
+public class DeleteLogDefaultService implements DeleteLogService {
 private final DeletedLogMapper deletedLogMapper;
+private final BaseDefaultService<DeletedLog> baseService;
 public DeleteLogDefaultService(DeletedLogMapper deletedLogMapper) {
-   super(deletedLogMapper);
    this.deletedLogMapper = deletedLogMapper;
+   baseService = new BaseDefaultService<>(deletedLogMapper);
 }
 
 
@@ -32,26 +33,26 @@ public void updateLog(DeletedLog log) {
 
 @Override
 public Response getBy(Parameter<DeletedLog> parameter) {
-   return null;
+   return baseService.getBy(parameter);
 }
 
 @Override
 public Response create(Parameter<DeletedLog> parameter) {
-   return null;
+   return baseService.create(parameter);
 }
 
 @Override
 public Response getById(Parameter<DeletedLog> parameter) {
-   return null;
+   return baseService.getById(parameter);
 }
 
 @Override
 public Response update(Parameter<DeletedLog> parameter) {
-   return null;
+   return baseService.update(parameter);
 }
 
 @Override
 public Response delete(Parameter<DeletedLog> parameter) {
-   return null;
+   return baseService.delete(parameter);
 }
 }

@@ -1,13 +1,11 @@
 package com.lib.aop;
 
-import com.lib.model.DeletedLog;
-import com.lib.model.GetLog;
-import com.lib.model.Parameter;
-import com.lib.model.UpdatedLog;
+import com.lib.model.*;
 import com.lib.service.DeleteLogService;
 import com.lib.service.GetLogService;
 import com.lib.service.UpdateLogService;
 import com.lib.utils.Json;
+import com.lib.utils.Jwt;
 import com.lib.utils.Parse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -42,8 +40,7 @@ public AroundOperation(GetLogService getLogService, UpdateLogService updateLogSe
 public Object logGet(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数
-   System.out.println(Json.stringify(point.getArgs()));
-   Parameter _parameter = Parse.argsToParameter(point.getArgs());
+   Parameter<BaseEntity> _parameter = (Parameter<BaseEntity>) point.getArgs()[0];
    
    GetLog _getLog = GetLog.create();
    {
@@ -103,7 +100,7 @@ public Object logGet(ProceedingJoinPoint point) throws Throwable {
 public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数 => parameter
-   Parameter _parameter = Parse.argsToParameter(point.getArgs());
+   Parameter<BaseEntity> _parameter = (Parameter<BaseEntity>) point.getArgs()[0];
    UpdatedLog _updatedLog = new UpdatedLog();
    {
       _updatedLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
@@ -140,7 +137,7 @@ public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
 public Object logDelete(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数 => parameter
-   Parameter _parameter = Parse.argsToParameter(point.getArgs());
+   Parameter<BaseEntity> _parameter = (Parameter<BaseEntity>) point.getArgs()[0];
    DeletedLog _deletedLog = new DeletedLog();
    {
       _deletedLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
@@ -173,4 +170,32 @@ public Object logDelete(ProceedingJoinPoint point) throws Throwable {
    return _res;
 }
 
+/**
+ * 将 token 封装到 parameter 里面去
+ *
+ * @param point service-method
+ */
+@Around("@within(com.lib.anno.AroundConduct)")
+public Object aroundConduct(ProceedingJoinPoint point) throws Throwable {
+   // 预期参数为 { parameter, token, id }
+   Object[] args = point.getArgs();
+   Parameter<BaseEntity> _parameter = argsToParameter(args);
+   args[0] = _parameter;
+   return point.proceed(args);
+}
+
+
+private  Parameter<BaseEntity> argsToParameter(Object[] args) {
+   // 解析参数 => parameter
+   Parameter<BaseEntity> _parameter = args[0] == null ? new Parameter<>() : (Parameter<BaseEntity>) args[0];
+   // token
+   String token = args[1].toString();
+   // token => tokenBody
+   TokenBody tokenBody = Jwt.decodeToken(token);
+   _parameter.setTokenBody(tokenBody);
+   if (args.length == 3) {
+      _parameter.setId(Integer.parseInt (args[2].toString()));
+   }
+   return _parameter;
+}
 }

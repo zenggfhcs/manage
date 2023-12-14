@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDefaultService extends BaseDefaultService<User> implements UserService {
+public class UserDefaultService implements UserService {
 private final UserMapper userMapper;
-
+private final BaseDefaultService<User> baseService;
 @Autowired
 public UserDefaultService(UserMapper userMapper) {
-   super(userMapper);
    this.userMapper = userMapper;
+   baseService = new BaseDefaultService<>(userMapper);
 }
 
 
@@ -38,29 +38,29 @@ public Response login(Parameter<User> parameter) {
  */
 @Override
 public Response getBy(Parameter<User> parameter) {
-   return Response.success();
+   return baseService.getBy(parameter);
 }
 
 
 @Override
 public Response create(Parameter<User> parameter) {
-   return Response.success();
+   return baseService.create(parameter);
 }
 
 @Override
 public Response getById(Parameter<User> parameter) {
-   return Response.success();
+   return baseService.getById(parameter);
 }
 
 
 @Override
 public Response update(Parameter<User> parameter) {
-   return Response.error("更新失败");
+   return baseService.update(parameter);
 }
 
 @Override
 public Response delete(Parameter<User> parameter) {
-   return Response.success();
+   return baseService.delete(parameter);
 }
 
 }

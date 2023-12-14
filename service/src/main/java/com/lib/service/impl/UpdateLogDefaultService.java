@@ -9,54 +9,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UpdateLogDefaultService extends BaseDefaultService<UpdatedLog> implements UpdateLogService {
+public class UpdateLogDefaultService implements UpdateLogService {
 
 private final UpdatedLogMapper updatedLogMapper;
+private final BaseDefaultService<UpdatedLog> baseService;
 
 @Autowired
 public UpdateLogDefaultService(UpdatedLogMapper updatedLogMapper) {
-   super(updatedLogMapper);
    this.updatedLogMapper = updatedLogMapper;
+   baseService = new BaseDefaultService<>(updatedLogMapper);
 }
 
 @Override
 public void createLog(UpdatedLog log) {
    Parameter<UpdatedLog> _parameter = new Parameter<>();
    _parameter.setEntity(log);
-   
-   updatedLogMapper.create(_parameter);
+   this.create(_parameter);
 }
 
 @Override
 public void updateLog(UpdatedLog log) {
    Parameter<UpdatedLog> _parameter = new Parameter<>();
    _parameter.setEntity(log);
-   
-   updatedLogMapper.update(_parameter);
+   this.update(_parameter);
 }
 
 @Override
 public Response getBy(Parameter<UpdatedLog> parameter) {
-   return null;
+   return baseService.getBy(parameter);
 }
 
 @Override
 public Response create(Parameter<UpdatedLog> parameter) {
-   return null;
+   return baseService.create(parameter);
 }
 
 @Override
 public Response getById(Parameter<UpdatedLog> parameter) {
-   return null;
+   return baseService.getById(parameter);
 }
 
 @Override
 public Response update(Parameter<UpdatedLog> parameter) {
-   return null;
+   return baseService.update(parameter);
 }
 
 @Override
 public Response delete(Parameter<UpdatedLog> parameter) {
-   return null;
+   return baseService.delete(parameter);
 }
 }

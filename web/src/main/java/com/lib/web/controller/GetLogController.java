@@ -1,5 +1,6 @@
 package com.lib.web.controller;
 
+import com.lib.anno.AroundConduct;
 import com.lib.model.GetLog;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/logs")
+@AroundConduct
 public class GetLogController {
 private final GetLogService logService;
 

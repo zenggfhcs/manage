@@ -48,6 +48,7 @@ public static String createToken(User user) {
             // 自定义信息
             .withClaim("id", user.getUserId())
             .withClaim("name", user.getDisplayName())
+            .withClaim("authority", user.getAuthority())
             // 有效时间
             .withExpiresAt(new Date(System.currentTimeMillis() + EFFECTIVE_DURATION))
             .sign(algorithm);
@@ -78,6 +79,7 @@ public static void main(String[] args) {
    User user = new User();
    user.setUserId(1);
    user.setDisplayName("admin");
+   user.setAuthority(Integer.MAX_VALUE);
    System.out.println(createToken(user));
 }
 }

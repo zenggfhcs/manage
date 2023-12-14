@@ -1,6 +1,7 @@
 package com.lib.web.controller;
 
 
+import com.lib.anno.AroundConduct;
 import com.lib.model.Parameter;
 import com.lib.model.Response;
 import com.lib.model.User;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
+@AroundConduct
 public class UserController {
 
 private final UserService userService;
@@ -20,38 +22,33 @@ public UserController(UserService userService) {
 }
 
 @PostMapping("/login")
-public Response login(@RequestBody Parameter<User> parameter, @RequestHeader("token") String token) {
+public Response login(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token) {
    return userService.login(parameter);
 }
 
 @GetMapping
-public Response getUsers(Parameter<User> parameter, @RequestHeader("token") String token) {
+public Response getUsers(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token) {
    return userService.getBy(parameter);
 }
 
 @PostMapping
-public Response createUser(@RequestBody Parameter<User> parameter, @RequestHeader("token") String token) {
+public Response createUser(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token) {
    return userService.create(parameter);
 }
 
 @GetMapping("/{id}")
-public Response getUser(@PathVariable Integer id, @RequestHeader("token") String token) {
-   Parameter<User> _parameter = new Parameter<>();
-   _parameter.setId(id);
-   return userService.getById(_parameter);
+public Response getUser(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return userService.getById(parameter);
 }
 
 @PatchMapping("/{id}")
-public Response updateUser(@PathVariable Integer id, @RequestBody Parameter<User> parameter, @RequestHeader("token") String token) {
-   parameter.setId(id);
+public Response updateUser(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
    return userService.update(parameter);
 }
 
 
 @DeleteMapping("/{id}")
-public Response deleteUser(@PathVariable Integer id, @RequestHeader("token") String token) {
-   Parameter<User> _parameter = new Parameter<>();
-   _parameter.setId(id);
-   return userService.delete(_parameter);
+public Response deleteUser(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return userService.delete(parameter);
 }
 }

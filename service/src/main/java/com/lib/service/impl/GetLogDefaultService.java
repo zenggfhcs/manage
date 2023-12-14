@@ -9,15 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
-public class GetLogDefaultService extends BaseDefaultService<GetLog> implements GetLogService {
+public class GetLogDefaultService implements GetLogService {
 private final GetLogMapper getLogMapper;
+private final BaseDefaultService<GetLog> baseService;
 
 public GetLogDefaultService(GetLogMapper getLogMapper) {
-   super(getLogMapper);
    this.getLogMapper = getLogMapper;
+   baseService = new BaseDefaultService<>(getLogMapper);
 }
 
 /**
@@ -30,7 +29,6 @@ public GetLogDefaultService(GetLogMapper getLogMapper) {
 public void createLog(GetLog log) {
    Parameter<GetLog> parameter = new Parameter<>();
    parameter.setEntity(log);
-   
    getLogMapper.create(parameter);
    
 }
@@ -52,33 +50,30 @@ public void updateLog(GetLog log) {
  * 获取日志
  *
  * @param parameter 相关参数
- * @param token     请求 token
  * @return 日志
  */
 @Override
 public Response getBy(Parameter<GetLog> parameter) {
-   List<GetLog> logs = getLogMapper.getBy(parameter);
-   
-   return Response.success(logs);
+   return baseService.getBy(parameter);
 }
 
 @Override
 public Response create(Parameter<GetLog> parameter) {
-   return Response.success();
+   return baseService.create(parameter);
 }
 
 @Override
 public Response getById(Parameter<GetLog> parameter) {
-   return Response.success();
+   return baseService.getById(parameter);
 }
 
 @Override
 public Response update(Parameter<GetLog> parameter) {
-   return Response.success();
+   return baseService.update(parameter);
 }
 
 @Override
 public Response delete(Parameter<GetLog> parameter) {
-   return Response.success();
+   return baseService.delete(parameter);
 }
 }

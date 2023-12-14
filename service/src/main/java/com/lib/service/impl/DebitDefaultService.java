@@ -26,21 +26,21 @@ public Response getBy(Parameter<Debit> parameter) {
 
 @Override
 public Response create(Parameter<Debit> parameter) {
-   return Response.success();
+   return baseService.create(parameter);
 }
 
 @Override
 public Response getById(Parameter<Debit> parameter) {
-   return Response.success();
+   return baseService.getById(parameter);
 }
 
 @Override
 public Response update(Parameter<Debit> parameter) {
-   return Response.success();
+   return baseService.update(parameter);
 }
 
 @Override
 public Response delete(Parameter<Debit> parameter) {
-   return Response.success();
+   return baseService.delete(parameter);
 }
 }
