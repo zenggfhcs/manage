@@ -1,17 +1,20 @@
 package com.lib.service;
 
-import com.lib.model.BookInfo;
-import com.lib.model.Parameter;
-import com.lib.model.Response;
+import com.lib.model.*;
 
 public interface BookInfoService extends BaseService<BookInfo> {
-Response getBy(Parameter<BookInfo> parameter);
+@Override
+Response getBy(Payload<BookInfo> payload, Filter filter);
 
-Response create(Parameter<BookInfo> parameter);
+@Override
+Response create(Payload<BookInfo> payload);
 
-Response getById(Parameter<BookInfo> parameter);
+@Override
+Response getById(Payload<BookInfo> payload);
 
-Response update(Parameter<BookInfo> parameter);
+@Override
+Response update(Payload<BookInfo> payload);
 
-Response delete(Parameter<BookInfo> parameter);
+@Override
+Response delete(Payload<BookInfo> payload);
 }

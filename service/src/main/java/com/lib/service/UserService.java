@@ -1,21 +1,19 @@
 package com.lib.service;
 
-import com.lib.model.Parameter;
-import com.lib.model.Response;
-import com.lib.model.User;
+import com.lib.model.*;
 
-public interface UserService {
-Response login(Parameter<User> parameter);
+public interface UserService extends BaseService<User> {
+Response login(Payload<User> payload);
 
-Response getBy(Parameter<User>  parameter);
+Response getBy(Payload<User> payload, Filter filter);
 
-Response create(Parameter<User>  parameter);
+Response create(Payload<User> payload);
 
-Response getById(Parameter<User>  parameter);
+Response getById(Payload<User> payload);
 
-Response update(Parameter<User>  parameter);
+Response update(Payload<User> payload);
 
-Response delete(Parameter<User>  parameter);
+Response delete(Payload<User> payload);
 
 
 }

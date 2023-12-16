@@ -2,9 +2,7 @@ package com.lib.web.controller;
 
 
 import com.lib.anno.AroundConduct;
-import com.lib.model.Parameter;
-import com.lib.model.Response;
-import com.lib.model.User;
+import com.lib.model.*;
 import com.lib.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,33 +20,33 @@ public UserController(UserService userService) {
 }
 
 @PostMapping("/login")
-public Response login(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token) {
-   return userService.login(parameter);
+public Response login(@RequestBody(required = false) Payload<User> payload, @RequestHeader("token") String token) {
+   return userService.login(payload);
 }
 
 @GetMapping
-public Response getUsers(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token) {
-   return userService.getBy(parameter);
+public Response getUsers(@RequestBody(required = false) Payload<User> payload, @RequestHeader("token") String token, @RequestBody(required = false) Filter filter) {
+   return userService.getBy(payload, filter);
 }
 
 @PostMapping
-public Response createUser(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token) {
-   return userService.create(parameter);
+public Response createUser(@RequestBody(required = false) Payload<User> payload, @RequestHeader("token") String token) {
+   return userService.create(payload);
 }
 
 @GetMapping("/{id}")
-public Response getUser(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return userService.getById(parameter);
+public Response getUser(@RequestBody(required = false) Payload<User> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return userService.getById(payload);
 }
 
 @PatchMapping("/{id}")
-public Response updateUser(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return userService.update(parameter);
+public Response updateUser(@RequestBody(required = false) Payload<User> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return userService.update(payload);
 }
 
 
 @DeleteMapping("/{id}")
-public Response deleteUser(@RequestBody(required = false) Parameter<User> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return userService.delete(parameter);
+public Response deleteUser(@RequestBody(required = false) Payload<User> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return userService.delete(payload);
 }
 }

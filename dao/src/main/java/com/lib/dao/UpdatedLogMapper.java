@@ -1,22 +1,24 @@
 package com.lib.dao;
 
-import com.lib.model.Parameter;
+import com.lib.model.Filter;
+import com.lib.model.Payload;
 import com.lib.model.UpdatedLog;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface UpdatedLogMapper extends BaseMapper<UpdatedLog> {
-UpdatedLog getById(Parameter<UpdatedLog> parameter);
+UpdatedLog getById(Payload<UpdatedLog> payload);
 
-List<UpdatedLog> getBy(Parameter<UpdatedLog> parameter);
+List<UpdatedLog> getBy(@Param("payload") Payload<UpdatedLog> payload, @Param("filter") Filter filter);
 
-int create(Parameter<UpdatedLog> parameter);
+int create(Payload<UpdatedLog> payload);
 
-int update(Parameter<UpdatedLog> parameter);
+int update(Payload<UpdatedLog> payload);
 
-int delete(Parameter<UpdatedLog> parameter);
+int delete(Payload<UpdatedLog> payload);
 
-UpdatedLog getByUpdate(Parameter<UpdatedLog> parameter);
+UpdatedLog getByUpdate(Payload<UpdatedLog> payload);
 }

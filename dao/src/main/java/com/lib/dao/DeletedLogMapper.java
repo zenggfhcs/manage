@@ -1,22 +1,24 @@
 package com.lib.dao;
 
 import com.lib.model.DeletedLog;
-import com.lib.model.Parameter;
+import com.lib.model.Filter;
+import com.lib.model.Payload;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface DeletedLogMapper extends BaseMapper<DeletedLog> {
-DeletedLog getById(Parameter<DeletedLog> parameter);
+DeletedLog getById(Payload<DeletedLog> payload);
 
-List<DeletedLog> getBy(Parameter<DeletedLog> parameter);
+List<DeletedLog> getBy(@Param("payload") Payload<DeletedLog> payload, @Param("filter") Filter filter);
 
-int create(Parameter<DeletedLog> parameter);
+int create(Payload<DeletedLog> payload);
 
-int update(Parameter<DeletedLog> parameter);
+int update(Payload<DeletedLog> payload);
 
-int delete(Parameter<DeletedLog> parameter);
+int delete(Payload<DeletedLog> payload);
 
-DeletedLog getByUpdate(Parameter<DeletedLog> parameter);
+DeletedLog getByUpdate(Payload<DeletedLog> payload);
 }

@@ -66,9 +66,8 @@ private Short age;
 private LocalDateTime lastLoginTime;
 
 /**
- *
  * @param userAuthority 用户权限值
- * @param authority 权限类型
+ * @param authority     权限类型
  * @return 权限检查结果
  */
 public static boolean hasAuthority(int userAuthority, int authority) {
@@ -76,13 +75,16 @@ public static boolean hasAuthority(int userAuthority, int authority) {
 }
 
 /**
- *
  * @param userState 用户状态值
- * @param state 状态类型
+ * @param state     状态类型
  * @return 状态检查结果
  */
 public static boolean isState(int userState, int state) {
    return (userState & state) != 0;
+}
+
+private static int set(int a, int local, int condition) {
+   return a & (~local) | (local * condition);
 }
 
 public void updateAuthority(int authority, int condition) {
@@ -91,10 +93,6 @@ public void updateAuthority(int authority, int condition) {
 
 public void updateState(int state, int condition) {
    this.state = set(this.state, state, condition);
-}
-
-private static int set(int a, int local, int condition) {
-   return a & (~local) | (local * condition);
 }
 
 /**

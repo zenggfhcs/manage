@@ -1,24 +1,25 @@
 package com.lib.dao;
 
 import com.lib.model.BaseEntity;
-import com.lib.model.Parameter;
+import com.lib.model.Filter;
+import com.lib.model.Payload;
 
 import java.util.List;
 
 public interface BaseMapper<T extends BaseEntity> {
 
-T getById(Parameter<T> parameter);
+T getById(Payload<T> payload);
 
 
-List<T> getBy(Parameter<T> parameter);
+List<T> getBy(Payload<T> payload, Filter filter);
 
 
-int update(Parameter<T> parameter);
+int update(Payload<T> payload);
 
 
-int create(Parameter<T> parameter);
+int create(Payload<T> payload);
 
-int delete(Parameter<T> parameter);
+int delete(Payload<T> payload);
 
-T getByUpdate(Parameter<T> parameter);
+T getByUpdate(Payload<T> payload);
 }

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.lib</groupId>
     <artifactId>manage</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-RELEASE</version>
     <packaging>pom</packaging>
     <name>manage</name>
     <description>manage</description>
@@ -34,37 +34,37 @@
             <dependency>
                 <groupId>com.lib</groupId>
                 <artifactId>dao</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0.0-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.lib</groupId>
                 <artifactId>model</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0.0-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.lib</groupId>
                 <artifactId>service</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0.0-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.lib</groupId>
                 <artifactId>aop</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0.0-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.lib</groupId>
                 <artifactId>anno</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0.0-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.lib</groupId>
                 <artifactId>error</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0.0-RELEASE</version>
             </dependency>
             <dependency>
                 <groupId>com.lib</groupId>
                 <artifactId>utils</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>1.0.0-RELEASE</version>
             </dependency>
             <!-- tools -->
             <dependency>
@@ -106,11 +106,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>3.1.5</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter-test</artifactId>
-                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

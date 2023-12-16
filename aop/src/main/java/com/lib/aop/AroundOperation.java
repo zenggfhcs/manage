@@ -13,7 +13,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @Aspect
@@ -40,24 +41,23 @@ public AroundOperation(GetLogService getLogService, UpdateLogService updateLogSe
 public Object logGet(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数
-   Parameter<BaseEntity> _parameter = (Parameter<BaseEntity>) point.getArgs()[0];
+   Object[] args = point.getArgs();
+   Payload<BaseEntity> _payload = argsToParameter(args);
    
    GetLog _getLog = GetLog.create();
    {
-      // 运行时时刻
-      _getLog.setRunTime(LocalDateTime.now());
       // 执行的方法所在的类（接口）
       _getLog.setClassName(point.getSignature().getDeclaringType().getName());
       // 执行的方法
       _getLog.setMethod(point.getSignature().getName());
       // 方法接收的参数
-      _getLog.setParameter(Json.stringify(_parameter));
+      _getLog.setPayload(Json.stringify(_payload));
       // 返回值
       _getLog.setReturnValue("");
       // 运行时长
       _getLog.setElapsedTime(0L);
       // 方法执行者
-      _getLog.setCreateBy(_parameter.getTokenBody().getId());
+      _getLog.setCreateBy(_payload.getTokenBody().getId());
    }
    // 插入日志，无论调用是否成功都有日志
    getLogService.createLog(_getLog);
@@ -100,15 +100,16 @@ public Object logGet(ProceedingJoinPoint point) throws Throwable {
 public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数 => parameter
-   Parameter<BaseEntity> _parameter = (Parameter<BaseEntity>) point.getArgs()[0];
+   Object[] args = point.getArgs();
+   Payload<BaseEntity> _payload = argsToParameter(args);
    UpdatedLog _updatedLog = new UpdatedLog();
    {
       _updatedLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
-      _updatedLog.setDataId(_parameter.getId());
+      _updatedLog.setDataId(_payload.getId());
       _updatedLog.setOldData("");
-      _updatedLog.setNewData(Json.stringify(_parameter));
+      _updatedLog.setNewData(Json.stringify(_payload));
       _updatedLog.setElapsedTime(0L);
-      _updatedLog.setCreateBy(_parameter.getTokenBody().getId());
+      _updatedLog.setCreateBy(_payload.getTokenBody().getId());
       // 插入日志
       updateLogService.createLog(_updatedLog);
    }
@@ -123,8 +124,8 @@ public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
       Long _endTime = System.currentTimeMillis();
       {
          _updatedLog.setElapsedTime(_endTime - _startTime);
-         _parameter.setTokenBody(null);
-         _updatedLog.setOldData(Json.stringify(_parameter));
+         _payload.setTokenBody(null);
+         _updatedLog.setOldData(Json.stringify(_payload));
          // 更新日志
          updateLogService.updateLog(_updatedLog);
       }
@@ -137,14 +138,15 @@ public Object logUpdate(ProceedingJoinPoint point) throws Throwable {
 public Object logDelete(ProceedingJoinPoint point) throws Throwable {
    /* -------- 前 -------- */
    // 解析参数 => parameter
-   Parameter<BaseEntity> _parameter = (Parameter<BaseEntity>) point.getArgs()[0];
+   Object[] args = point.getArgs();
+   Payload<BaseEntity> _payload = argsToParameter(args);
    DeletedLog _deletedLog = new DeletedLog();
    {
       _deletedLog.setDataClass(Parse.serviceToDataClass(point.getSignature().getDeclaringType().getName()));
-      _deletedLog.setDataId(_parameter.getId());
+      _deletedLog.setDataId(_payload.getId());
       _deletedLog.setData("");
       _deletedLog.setElapsedTime(0L);
-      _deletedLog.setCreateBy(_parameter.getTokenBody().getId());
+      _deletedLog.setCreateBy(_payload.getTokenBody().getId());
       // 插入日志
       deleteLogService.createLog(_deletedLog);
    }
@@ -159,9 +161,9 @@ public Object logDelete(ProceedingJoinPoint point) throws Throwable {
       Long _endTime = System.currentTimeMillis();
       {
          _deletedLog.setElapsedTime(_endTime - _startTime);
-         _parameter.setTokenBody(null);
-         _parameter.setId(null);
-         _deletedLog.setData(Json.stringify(_parameter));
+         _payload.setTokenBody(null);
+         _payload.setId(null);
+         _deletedLog.setData(Json.stringify(_payload));
          // 更新日志
          deleteLogService.updateLog(_deletedLog);
       }
@@ -179,23 +181,32 @@ public Object logDelete(ProceedingJoinPoint point) throws Throwable {
 public Object aroundConduct(ProceedingJoinPoint point) throws Throwable {
    // 预期参数为 { parameter, token, id }
    Object[] args = point.getArgs();
-   Parameter<BaseEntity> _parameter = argsToParameter(args);
-   args[0] = _parameter;
+   Payload<BaseEntity> _payload = argsToParameter(args);
+   args[0] = _payload;
    return point.proceed(args);
 }
 
 
-private  Parameter<BaseEntity> argsToParameter(Object[] args) {
+private Payload<BaseEntity> argsToParameter(Object[] args) {
    // 解析参数 => parameter
-   Parameter<BaseEntity> _parameter = args[0] == null ? new Parameter<>() : (Parameter<BaseEntity>) args[0];
+   Payload<BaseEntity> _payload = getOrNew(args[0]);
    // token
    String token = args[1].toString();
    // token => tokenBody
    TokenBody tokenBody = Jwt.decodeToken(token);
-   _parameter.setTokenBody(tokenBody);
-   if (args.length == 3) {
-      _parameter.setId(Integer.parseInt (args[2].toString()));
+   _payload.setTokenBody(tokenBody);
+   if (args.length == 3 && args[2].getClass() == Integer.class) {
+      _payload.setId(Integer.parseInt(args[2].toString()));
+      Map<String, String> map = new HashMap<>();
+      map.getOrDefault("1", "a");
    }
-   return _parameter;
+   return _payload;
+}
+
+private Payload<BaseEntity> getOrNew(Object arg) {
+   if (arg instanceof Payload<? extends BaseEntity>) {
+      return (Payload<BaseEntity>) arg;
+   }
+   return new Payload<>();
 }
 }

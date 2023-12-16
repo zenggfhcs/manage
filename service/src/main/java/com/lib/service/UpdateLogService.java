@@ -1,21 +1,19 @@
 package com.lib.service;
 
-import com.lib.model.Parameter;
-import com.lib.model.Response;
-import com.lib.model.UpdatedLog;
+import com.lib.model.*;
 
 public interface UpdateLogService extends BaseService<UpdatedLog> {
 void createLog(UpdatedLog log);
 
 void updateLog(UpdatedLog log);
 
-Response getBy(Parameter<UpdatedLog> parameter);
+Response getBy(Payload<UpdatedLog> payload, Filter filter);
 
-Response create(Parameter<UpdatedLog> parameter);
+Response create(Payload<UpdatedLog> payload);
 
-Response getById(Parameter<UpdatedLog> parameter);
+Response getById(Payload<UpdatedLog> payload);
 
-Response update(Parameter<UpdatedLog> parameter);
+Response update(Payload<UpdatedLog> payload);
 
-Response delete(Parameter<UpdatedLog> parameter);
+Response delete(Payload<UpdatedLog> payload);
 }

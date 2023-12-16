@@ -2,7 +2,8 @@ package com.lib.web.controller;
 
 import com.lib.anno.AroundConduct;
 import com.lib.model.Debit;
-import com.lib.model.Parameter;
+import com.lib.model.Payload;
+import com.lib.model.Filter;
 import com.lib.model.Response;
 import com.lib.service.DebitService;
 import org.springframework.web.bind.annotation.*;
@@ -18,27 +19,27 @@ public DebitController(DebitService debitService) {
 }
 
 @GetMapping
-public Response getDebits(@RequestBody(required = false) Parameter<Debit> parameter, @RequestHeader("token") String token) {
-   return debitService.getBy(parameter);
+public Response getDebits(@RequestBody(required = false) Payload<Debit> payload, @RequestHeader("token") String token, @RequestBody(required = false) Filter filter) {
+   return debitService.getBy(payload, filter);
 }
 
 @PostMapping
-public Response createDebit(@RequestBody(required = false) Parameter<Debit> parameter, @RequestHeader("token") String token) {
-   return debitService.create(parameter);
+public Response createDebit(@RequestBody(required = false) Payload<Debit> payload, @RequestHeader("token") String token) {
+   return debitService.create(payload);
 }
 
 @GetMapping("/{id}")
-public Response getDebit(@RequestBody(required = false) Parameter<Debit> parameter, @RequestHeader("token") String token,@PathVariable Integer id) {
-   return debitService.getById(parameter);
+public Response getDebit(@RequestBody(required = false) Payload<Debit> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return debitService.getById(payload);
 }
 
 @PatchMapping("/{id}")
-public Response updateDebit(@RequestBody(required = false) Parameter<Debit> parameter, @RequestHeader("token") String token,@PathVariable Integer id) {
-   return debitService.update(parameter);
+public Response updateDebit(@RequestBody(required = false) Payload<Debit> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return debitService.update(payload);
 }
 
 @DeleteMapping("/{id}")
-public Response deleteDebit(@RequestBody(required = false) Parameter<Debit> parameter, @RequestHeader("token") String token,@PathVariable Integer id) {
-   return debitService.delete(parameter);
+public Response deleteDebit(@RequestBody(required = false) Payload<Debit> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return debitService.delete(payload);
 }
 }

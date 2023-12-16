@@ -1,9 +1,7 @@
 package com.lib.web.controller;
 
 import com.lib.anno.AroundConduct;
-import com.lib.model.Book;
-import com.lib.model.Parameter;
-import com.lib.model.Response;
+import com.lib.model.*;
 import com.lib.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,27 +20,27 @@ public BookController(BookService bookService) {
 
 
 @GetMapping
-public Response getBooks(@RequestBody(required = false) Parameter<Book> parameter, @RequestHeader("token") String token) {
-   return bookService.getBy(parameter);
+public Response getBooks(@RequestBody(required = false) Payload<Book> payload, @RequestHeader("token") String token, @RequestBody(required = false) Filter filter) {
+   return bookService.getBy(payload, filter);
 }
 
 @PostMapping
-public Response createBook(@RequestBody(required = false) Parameter<Book> parameter, @RequestHeader("token") String token) {
-   return bookService.create(parameter);
+public Response createBook(@RequestBody(required = false) Payload<Book> payload, @RequestHeader("token") String token) {
+   return bookService.create(payload);
 }
 
 @GetMapping("/{id}")
-public Response getBook(@RequestBody(required = false) Parameter<Book> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return bookService.getById(parameter);
+public Response getBook(@RequestBody(required = false) Payload<Book> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return bookService.getById(payload);
 }
 
 @PatchMapping("/{id}")
-public Response updateBook(@RequestBody(required = false) Parameter<Book> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return bookService.update(parameter);
+public Response updateBook(@RequestBody(required = false) Payload<Book> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return bookService.update(payload);
 }
 
 @DeleteMapping("/{id}")
-public Response deleteBook(@RequestBody(required = false) Parameter<Book> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return bookService.delete(parameter);
+public Response deleteBook(@RequestBody(required = false) Payload<Book> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return bookService.delete(payload);
 }
 }

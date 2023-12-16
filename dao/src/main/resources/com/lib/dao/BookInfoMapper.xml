@@ -26,7 +26,7 @@
         <association property="publisher" column="{id=publish_id}" javaType="com.lib.model.Publisher"
                      select="com.lib.dao.PublisherMapper.getById"/>
     </resultMap>
-    <insert id="create" parameterType="com.lib.model.Parameter" useGeneratedKeys="true" keyColumn="entity.bookInfoId">
+    <insert id="create" parameterType="com.lib.model.Payload" useGeneratedKeys="true" keyColumn="entity.bookInfoId">
         insert into book_info (publish_id, publish_place, isbn, cip, book_name, book_type, cover, author,
                                `describe`, publish_date, keyword, lang, price, stock, create_by, create_time, update_by,
                                update_time, revision)
@@ -37,7 +37,7 @@
                , #{entity.keyword}, #{entity.lang}, #{entity.price}, #{entity.stock}, #{entity.createBy}
                , NOW(), #{entity.updateBy}, now(), #{entity.revision})
     </insert>
-    <update id="update" parameterType="com.lib.model.Parameter">
+    <update id="update" parameterType="com.lib.model.Payload">
         update book_info bif
         <set>
             <if test="entity.publisher.publishId != null">
@@ -94,11 +94,12 @@
         </set>
         where bif.`book_info_id` = #{id} and bif.`revision` = #{entity.revision}
     </update>
-    <delete id="delete" parameterType="com.lib.model.Parameter">
-        delete from book_info
+    <delete id="delete" parameterType="com.lib.model.Payload">
+        delete
+        from book_info
         where book_info_id = #{id}
     </delete>
-    <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+    <select id="getBy" resultMap="BaseResultMap">
         select distinct bif.`book_info_id`,
         bif.`publish_id`,
         bif.`publish_place`,
@@ -121,34 +122,38 @@
         bif.`revision`
         from book_info bif
         <where>
-            <if test="entity != null">
-                <if test="entity.bookInfoId != null">
-                    bif.`book_info_id` = #{entity.bookInfoId}
+            <if test="payload.entity != null">
+                <if test="payload.entity.bookInfoId != null">
+                    and bif.`book_info_id` = #{payload.entity.bookInfoId}
+                </if>
+                <if test="payload.entity.bookName != null">
+                    and bif.`book_name` like concat('%', #{payload.entity.bookName}, '%')
                 </if>
             </if>
         </where>
+        limit #{filter.pageStart}, #{filter.pageSize}
     </select>
-    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Payload">
         select distinct bif.`book_info_id`,
-        bif.`publish_id`,
-        bif.`publish_place`,
-        bif.`isbn`,
-        bif.`cip`,
-        bif.`book_name`,
-        bif.`book_type`,
-        bif.`cover`,
-        bif.`author`,
-        bif.`describe`,
-        bif.`publish_date`,
-        bif.`keyword`,
-        bif.`lang`,
-        bif.`price`,
-        bif.`stock`,
-        bif.`create_by`,
-        bif.`create_time`,
-        bif.`update_by`,
-        bif.`update_time`,
-        bif.`revision`
+                        bif.`publish_id`,
+                        bif.`publish_place`,
+                        bif.`isbn`,
+                        bif.`cip`,
+                        bif.`book_name`,
+                        bif.`book_type`,
+                        bif.`cover`,
+                        bif.`author`,
+                        bif.`describe`,
+                        bif.`publish_date`,
+                        bif.`keyword`,
+                        bif.`lang`,
+                        bif.`price`,
+                        bif.`stock`,
+                        bif.`create_by`,
+                        bif.`create_time`,
+                        bif.`update_by`,
+                        bif.`update_time`,
+                        bif.`revision`
         from book_info bif
         where bif.`book_info_id` = #{id}
     </select>

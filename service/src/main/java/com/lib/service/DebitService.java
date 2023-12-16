@@ -1,17 +1,20 @@
 package com.lib.service;
 
-import com.lib.model.Debit;
-import com.lib.model.Parameter;
-import com.lib.model.Response;
+import com.lib.model.*;
 
 public interface DebitService extends BaseService<Debit> {
-Response getBy(Parameter<Debit> parameter);
+@Override
+Response getBy(Payload<Debit> payload, Filter filter);
 
-Response create(Parameter<Debit> parameter);
+@Override
+Response create(Payload<Debit> payload);
 
-Response getById(Parameter<Debit> parameter);
+@Override
+Response getById(Payload<Debit> payload);
 
-Response update(Parameter<Debit> parameter);
+@Override
+Response update(Payload<Debit> payload);
 
-Response delete(Parameter<Debit> parameter);
+@Override
+Response delete(Payload<Debit> payload);
 }

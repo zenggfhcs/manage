@@ -7,16 +7,17 @@
         <id property="logId" column="log_id" jdbcType="BIGINT"/>
         <result property="dataClass" column="class_name" jdbcType="VARCHAR"/>
         <result property="dataId" column="data_id" jdbcType="INTEGER"/>
-        <result property="oldData" column="parameter" jdbcType="VARCHAR"/>
+        <result property="oldData" column="payload" jdbcType="VARCHAR"/>
         <result property="newData" column="return_value" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="INTEGER"/>
     </resultMap>
-    <insert id="create" parameterType="com.lib.model.Parameter" keyProperty="entity.logId" keyColumn="log_id"
+    <insert id="create" parameterType="com.lib.model.Payload" keyProperty="entity.logId" keyColumn="log_id"
             useGeneratedKeys="true">
         insert into update_log(data_class, data_id, old_data, new_data, elapsed_time, create_time, create_by)
-        values (#{entity.dataClass}, #{entity.dataId}, #{entity.oldData}, #{entity.newData}, #{entity.elapsedTime}, NOW(),
-        #{entity.createBy})
+        values (#{entity.dataClass}, #{entity.dataId}, #{entity.oldData}, #{entity.newData}, #{entity.elapsedTime},
+                NOW(),
+                #{entity.createBy})
     </insert>
     <update id="update">
         update update_log u

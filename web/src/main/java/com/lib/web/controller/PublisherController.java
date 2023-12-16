@@ -1,9 +1,7 @@
 package com.lib.web.controller;
 
 import com.lib.anno.AroundConduct;
-import com.lib.model.Parameter;
-import com.lib.model.Publisher;
-import com.lib.model.Response;
+import com.lib.model.*;
 import com.lib.service.PublisherService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,28 +16,28 @@ public PublisherController(PublisherService publisherService) {
 }
 
 @GetMapping
-public Response getPublishers(@RequestBody(required = false) Parameter<Publisher> parameter, @RequestHeader("token") String token) {
-   return publisherService.getBy(parameter);
+public Response getPublishers(@RequestBody(required = false) Payload<Publisher> payload, @RequestHeader("token") String token, @RequestBody(required = false) Filter filter) {
+   return publisherService.getBy(payload, filter);
 }
 
 @PostMapping
-public Response createPublisher(@RequestBody(required = false) Parameter<Publisher> parameter, @RequestHeader("token") String token) {
-   return publisherService.create(parameter);
+public Response createPublisher(@RequestBody(required = false) Payload<Publisher> payload, @RequestHeader("token") String token) {
+   return publisherService.create(payload);
 }
 
 @GetMapping("/{id}")
-public Response getPublisher(@RequestBody(required = false) Parameter<Publisher> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return publisherService.getById(parameter);
+public Response getPublisher(@RequestBody(required = false) Payload<Publisher> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return publisherService.getById(payload);
 }
 
 
 @PatchMapping("/{id}")
-public Response updatePublisher(@RequestBody(required = false) Parameter<Publisher> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return publisherService.update(parameter);
+public Response updatePublisher(@RequestBody(required = false) Payload<Publisher> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return publisherService.update(payload);
 }
 
 @DeleteMapping("/{id}")
-public Response deletePublisher(@RequestBody(required = false) Parameter<Publisher> parameter, @RequestHeader("token") String token, @PathVariable Integer id) {
-   return publisherService.delete(parameter);
+public Response deletePublisher(@RequestBody(required = false) Payload<Publisher> payload, @RequestHeader("token") String token, @PathVariable Integer id) {
+   return publisherService.delete(payload);
 }
 }

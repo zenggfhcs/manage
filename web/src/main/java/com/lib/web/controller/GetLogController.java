@@ -1,14 +1,9 @@
 package com.lib.web.controller;
 
 import com.lib.anno.AroundConduct;
-import com.lib.model.GetLog;
-import com.lib.model.Parameter;
-import com.lib.model.Response;
+import com.lib.model.*;
 import com.lib.service.GetLogService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/logs")
@@ -21,7 +16,7 @@ public GetLogController(GetLogService logService) {
 }
 
 @GetMapping
-public Response getLogs(Parameter<GetLog> parameter, @RequestHeader("token") String token) {
-   return logService.getBy(parameter);
+public Response getLogs(@RequestBody(required = false) Payload<GetLog> payload, @RequestHeader("token") String token, @RequestBody(required = false) Filter filter) {
+   return logService.getBy(payload, filter);
 }
 }

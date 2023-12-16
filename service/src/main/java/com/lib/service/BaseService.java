@@ -1,17 +1,15 @@
 package com.lib.service;
 
-import com.lib.model.BaseEntity;
-import com.lib.model.Parameter;
-import com.lib.model.Response;
+import com.lib.model.*;
 
 public interface BaseService<T extends BaseEntity> {
-Response getBy(Parameter<T> parameter);
+Response getBy(Payload<T> payload, Filter filter);
 
-Response create(Parameter<T> parameter);
+Response create(Payload<T> payload);
 
-Response getById(Parameter<T> parameter);
+Response getById(Payload<T> payload);
 
-Response update(Parameter<T> parameter);
+Response update(Payload<T> payload);
 
-Response delete(Parameter<T> parameter);
+Response delete(Payload<T> payload);
 }

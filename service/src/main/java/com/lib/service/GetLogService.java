@@ -1,21 +1,19 @@
 package com.lib.service;
 
-import com.lib.model.GetLog;
-import com.lib.model.Parameter;
-import com.lib.model.Response;
+import com.lib.model.*;
 
 public interface GetLogService extends BaseService<GetLog> {
 void createLog(GetLog log);
 
 void updateLog(GetLog log);
 
-Response getBy(Parameter<GetLog> parameter);
+Response getBy(Payload<GetLog> payload, Filter filter);
 
-Response create(Parameter<GetLog>  parameter);
+Response create(Payload<GetLog> payload);
 
-Response getById(Parameter<GetLog>  parameter);
+Response getById(Payload<GetLog> payload);
 
-Response update(Parameter<GetLog>  parameter);
+Response update(Payload<GetLog> payload);
 
-Response delete(Parameter<GetLog>  parameter);
+Response delete(Payload<GetLog> payload);
 }

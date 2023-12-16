@@ -1,23 +1,24 @@
 package com.lib.dao;
 
-import com.lib.model.Parameter;
+import com.lib.model.Filter;
+import com.lib.model.Payload;
 import com.lib.model.Publisher;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface PublisherMapper extends BaseMapper<Publisher> {
+List<Publisher> getBy(@Param("payload") Payload<Publisher> payload, @Param("filter") Filter filter);
 
-Publisher getById(Parameter<Publisher> parameter);
+Publisher getById(Payload<Publisher> payload);
 
-List<Publisher> getBy(Parameter<Publisher> parameter);
+int update(Payload<Publisher> payload);
 
-int update(Parameter<Publisher> parameter);
+int create(Payload<Publisher> payload);
 
-int create(Parameter<Publisher> parameter);
+int delete(Payload<Publisher> payload);
 
-int delete(Parameter<Publisher> parameter);
-
-Publisher getByUpdate(Parameter<Publisher> parameter);
+Publisher getByUpdate(Payload<Publisher> payload);
 }

@@ -1,22 +1,24 @@
 package com.lib.dao;
 
 import com.lib.model.BookInfo;
-import com.lib.model.Parameter;
+import com.lib.model.Filter;
+import com.lib.model.Payload;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface BookInfoMapper extends BaseMapper<BookInfo> {
-BookInfo getById(Parameter<BookInfo> parameter);
+BookInfo getById(Payload<BookInfo> payload);
 
-List<BookInfo> getBy(Parameter<BookInfo> parameter);
+List<BookInfo> getBy(@Param("payload") Payload<BookInfo> payload, @Param("filter") Filter filter);
 
-int update(Parameter<BookInfo> parameter);
+int update(Payload<BookInfo> payload);
 
-int create(Parameter<BookInfo> parameter);
+int create(Payload<BookInfo> payload);
 
-int delete(Parameter<BookInfo> parameter);
+int delete(Payload<BookInfo> payload);
 
-BookInfo getByUpdate(Parameter<BookInfo> parameter);
+BookInfo getByUpdate(Payload<BookInfo> payload);
 }

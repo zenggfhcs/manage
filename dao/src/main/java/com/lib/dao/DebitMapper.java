@@ -1,22 +1,24 @@
 package com.lib.dao;
 
 import com.lib.model.Debit;
-import com.lib.model.Parameter;
+import com.lib.model.Filter;
+import com.lib.model.Payload;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface DebitMapper extends BaseMapper<Debit> {
-Debit getById(Parameter<Debit> parameter);
+Debit getById(Payload<Debit> payload);
 
-List<Debit> getBy(Parameter<Debit> parameter);
+List<Debit> getBy(@Param("payload") Payload<Debit> payload, @Param("filter") Filter filter);
 
-int create(Parameter<Debit> parameter);
+int create(Payload<Debit> payload);
 
-int update(Parameter<Debit> parameter);
+int update(Payload<Debit> payload);
 
-int delete(Parameter<Debit> parameter);
+int delete(Payload<Debit> payload);
 
-Debit getByUpdate(Parameter<Debit> parameter);
+Debit getByUpdate(Payload<Debit> payload);
 }

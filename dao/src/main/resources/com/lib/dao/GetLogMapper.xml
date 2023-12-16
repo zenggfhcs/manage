@@ -7,20 +7,19 @@
         <id property="logId" column="log_id" jdbcType="BIGINT"/>
         <result property="method" column="method" jdbcType="VARCHAR"/>
         <result property="className" column="class_name" jdbcType="VARCHAR"/>
-        <result property="parameter" column="parameter" jdbcType="VARCHAR"/>
+        <result property="payload" column="payload" jdbcType="VARCHAR"/>
         <result property="returnValue" column="return_value" jdbcType="VARCHAR"/>
         <result property="elapsedTime" column="elapsed_time" jdbcType="BIGINT"/>
-        <result property="runTime" column="run_time" jdbcType="TIMESTAMP"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="createBy" column="create_by" jdbcType="INTEGER"/>
     </resultMap>
     <insert id="create" useGeneratedKeys="true" keyProperty="entity.logId" keyColumn="log_id"
-            parameterType="com.lib.model.Parameter">
-        insert into get_log(method, class_name, parameter, return_value, elapsed_time, run_time, create_time, create_by)
-        values (#{entity.method}, #{entity.className}, #{entity.parameter}, #{entity.returnValue}, #{entity.elapsedTime},
-        #{entity.runTime}, now(), #{entity.createBy})
+            parameterType="com.lib.model.Payload">
+        insert into get_log(method, class_name, payload, return_value, elapsed_time, create_time, create_by)
+        values (#{entity.method}, #{entity.className}, #{entity.payload}, #{entity.returnValue}, #{entity.elapsedTime},
+                now(), #{entity.createBy})
     </insert>
-    <update id="update" parameterType="com.lib.model.Parameter">
+    <update id="update" parameterType="com.lib.model.Payload">
         update get_log
         <set>
             <if test="entity.returnValue != null and entity.returnValue != ''">
@@ -32,16 +31,17 @@
         </set>
         where log_id = #{entity.logId}
     </update>
-    <delete id="delete" parameterType="com.lib.model.Parameter">
-        delete from get_log
+    <delete id="delete" parameterType="com.lib.model.Payload">
+        delete
+        from get_log
         where log_id = #{id}
     </delete>
-    <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+    <select id="getBy" resultMap="BaseResultMap">
         select
         l.log_id,
         l.class_name,
         l.method,
-        l.parameter,
+        l.payload,
         l.return_value,
         l.elapsed_time,
         l.run_time,
@@ -67,16 +67,15 @@
         </where>
         limit #{pageStart}, #{pageSize}
     </select>
-    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Payload">
         select l.`log_id`,
-        l.`class_name`,
-        l.`method`,
-        l.`parameter`,
-        l.`return_value`,
-        l.`elapsed_time`,
-        l.`run_time`,
-        l.`create_time`,
-        l.`create_by`
+               l.`class_name`,
+               l.`method`,
+               l.`payload`,
+               l.`return_value`,
+               l.`elapsed_time`,
+               l.`create_time`,
+               l.`create_by`
         from get_log l
         where l.`log_id` = #{id}
     </select>

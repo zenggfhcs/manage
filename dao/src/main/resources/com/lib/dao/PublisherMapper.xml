@@ -13,7 +13,7 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="revision" column="revision" jdbcType="INTEGER"/>
     </resultMap>
-    <select id="getBy" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+    <select id="getBy" resultMap="BaseResultMap">
         select distinct
         p.`publish_id`,
         p.`name`,
@@ -43,12 +43,12 @@
             </if>
         </where>
     </select>
-    <insert id="create" parameterType="com.lib.model.Parameter" useGeneratedKeys="true" keyColumn="entity.publishId">
+    <insert id="create" parameterType="com.lib.model.Payload" useGeneratedKeys="true" keyColumn="entity.publishId">
         insert into publisher(name, remark, create_by, create_time, update_by, update_time, revision)
         values (#{entity.name}, #{entity.remark}, #{tokenBody.id}, NOW(), #{tokenBody.id}, NOW(),
                 0)
     </insert>
-    <update id="update" parameterType="com.lib.model.Parameter">
+    <update id="update" parameterType="com.lib.model.Payload">
         update publisher p
         <set>
             <if test="entity.name != null and entity.name != ''">
@@ -67,25 +67,25 @@
         </set>
         where p.`publish_id` = #{id} and p.`revision` = #{entity.revision};
     </update>
-    <delete id="delete" parameterType="com.lib.model.Parameter">
+    <delete id="delete" parameterType="com.lib.model.Payload">
         delete
         from publisher
         where publish_id = #{id}
     </delete>
-    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+    <select id="getById" resultMap="BaseResultMap" parameterType="com.lib.model.Payload">
         select p.`publish_id`,
-        p.`name`,
-        p.`remark`,
-        p.`create_by`,
-        p.`create_time`,
-        p.`update_by`,
-        p.`update_time`,
-        p.`revision`
+               p.`name`,
+               p.`remark`,
+               p.`create_by`,
+               p.`create_time`,
+               p.`update_by`,
+               p.`update_time`,
+               p.`revision`
         from publisher p
         where p.`publish_id` = #{id}
     </select>
 
-    <select id="getByUpdate" resultMap="BaseResultMap" parameterType="com.lib.model.Parameter">
+    <select id="getByUpdate" resultMap="BaseResultMap" parameterType="com.lib.model.Payload">
         select
         <trim suffixOverrides=",">
             <if test="entity.name != null and entity.name != ''">
